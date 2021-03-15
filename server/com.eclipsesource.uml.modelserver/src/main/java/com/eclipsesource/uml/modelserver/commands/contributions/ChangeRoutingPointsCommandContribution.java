@@ -23,7 +23,7 @@ import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 import org.eclipse.glsp.graph.GPoint;
 
-import com.eclipsesource.uml.modelserver.commands.ChangeRoutingPointsCommand;
+import com.eclipsesource.uml.modelserver.commands.notation.ChangeRoutingPointsCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 
 public class ChangeRoutingPointsCommandContribution extends UmlNotationCommandContribution {

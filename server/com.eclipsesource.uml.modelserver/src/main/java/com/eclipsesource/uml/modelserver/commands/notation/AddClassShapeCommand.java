@@ -8,7 +8,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.notation;
+
+import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -24,12 +26,12 @@ public class AddClassShapeCommand extends UmlNotationElementCommand {
 
    protected final GPoint shapePosition;
    protected String semanticProxyUri;
-   protected Class newClass;
+   protected Supplier<Class> classSupplier;
 
-   public AddClassShapeCommand(final EditingDomain domain, final URI modelUri, final GPoint position) {
+   private AddClassShapeCommand(final EditingDomain domain, final URI modelUri, final GPoint position) {
       super(domain, modelUri);
       this.shapePosition = position;
-      this.newClass = null;
+      this.classSupplier = null;
       this.semanticProxyUri = null;
    }
 
@@ -39,10 +41,10 @@ public class AddClassShapeCommand extends UmlNotationElementCommand {
       this.semanticProxyUri = semanticProxyUri;
    }
 
-   public AddClassShapeCommand(final EditingDomain domain, final URI modelUri, final Class newClass,
-      final GPoint position) {
+   public AddClassShapeCommand(final EditingDomain domain, final URI modelUri, final GPoint position,
+      final Supplier<Class> classSupplier) {
       this(domain, modelUri, position);
-      this.newClass = newClass;
+      this.classSupplier = classSupplier;
    }
 
    @Override
@@ -51,10 +53,10 @@ public class AddClassShapeCommand extends UmlNotationElementCommand {
       newShape.setPosition(this.shapePosition);
 
       SemanticProxy proxy = UnotationFactory.eINSTANCE.createSemanticProxy();
-      if (this.semanticProxyUri != null && this.newClass == null) {
+      if (this.semanticProxyUri != null) {
          proxy.setUri(this.semanticProxyUri);
       } else {
-         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri(newClass));
+         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri(classSupplier.get()));
       }
       newShape.setSemanticElement(proxy);
 

@@ -18,7 +18,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.RemoveClassCommand;
+import com.eclipsesource.uml.modelserver.commands.compound.RemoveClassCompoundCommand;
 
 public class RemoveClassCommandContribution extends UmlCompoundCommandContribution {
 
@@ -36,7 +36,7 @@ public class RemoveClassCommandContribution extends UmlCompoundCommandContributi
       throws DecodingException {
 
       String semanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
-      return new RemoveClassCommand(domain, modelUri, semanticUriFragment);
+      return new RemoveClassCompoundCommand(domain, modelUri, semanticUriFragment);
    }
 
 }

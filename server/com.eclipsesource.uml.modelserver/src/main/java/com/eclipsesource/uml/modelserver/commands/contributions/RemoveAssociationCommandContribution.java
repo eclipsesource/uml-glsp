@@ -18,7 +18,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.RemoveAssociationCommand;
+import com.eclipsesource.uml.modelserver.commands.compound.RemoveAssociationCompoundCommand;
 
 public class RemoveAssociationCommandContribution extends UmlCompoundCommandContribution {
 
@@ -36,7 +36,7 @@ public class RemoveAssociationCommandContribution extends UmlCompoundCommandCont
       throws DecodingException {
 
       String semanticUriFragment = command.getProperties().get(SEMANTIC_URI_FRAGMENT);
-      return new RemoveAssociationCommand(domain, modelUri, semanticUriFragment);
+      return new RemoveAssociationCompoundCommand(domain, modelUri, semanticUriFragment);
    }
 
 }

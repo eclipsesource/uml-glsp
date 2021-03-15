@@ -19,7 +19,7 @@ import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 import org.eclipse.glsp.graph.GPoint;
 
-import com.eclipsesource.uml.modelserver.commands.ChangeBoundsCommand;
+import com.eclipsesource.uml.modelserver.commands.notation.ChangeBoundsCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 
 public class ChangeBoundsCommandContribution extends UmlNotationCommandContribution {

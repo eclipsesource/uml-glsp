@@ -8,17 +8,23 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.compound;
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-public class RemoveAssociationCommand extends CompoundCommand {
+import com.eclipsesource.uml.modelserver.commands.notation.RemoveAssociationEdgeCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemoveAssociationCommand;
 
-   public RemoveAssociationCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
-      this.append(new RemoveAssociationElementCommand(domain, modelUri, semanticUriFragment));
+public class RemoveAssociationCompoundCommand extends CompoundCommand {
+
+   public RemoveAssociationCompoundCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticUriFragment) {
+      this.append(new RemoveAssociationCommand(domain, modelUri, semanticUriFragment));
       this.append(new RemoveAssociationEdgeCommand(domain, modelUri, semanticUriFragment));
+
+      // TODO Make sure to remove also all other AssociationEnds (not only the ownedByAssociation Ends!
    }
 
 }

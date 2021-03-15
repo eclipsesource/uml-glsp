@@ -17,7 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.RemovePropertyCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemovePropertyCommand;
 
 public class RemovePropertyCommandContribution extends UmlSemanticCommandContribution {
 

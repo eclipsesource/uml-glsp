@@ -18,7 +18,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.AddAssociationCommand;
+import com.eclipsesource.uml.modelserver.commands.compound.AddAssociationCompoundCommand;
 
 public class AddAssociationCommandContribution extends UmlCompoundCommandContribution {
 
@@ -41,7 +41,7 @@ public class AddAssociationCommandContribution extends UmlCompoundCommandContrib
       String sourceClassUriFragment = command.getProperties().get(SOURCE_CLASS_URI_FRAGMENT);
       String targetClassUriFragment = command.getProperties().get(TARGET_CLASS_URI_FRAGMENT);
 
-      return new AddAssociationCommand(domain, modelUri, sourceClassUriFragment, targetClassUriFragment);
+      return new AddAssociationCompoundCommand(domain, modelUri, sourceClassUriFragment, targetClassUriFragment);
    }
 
 }

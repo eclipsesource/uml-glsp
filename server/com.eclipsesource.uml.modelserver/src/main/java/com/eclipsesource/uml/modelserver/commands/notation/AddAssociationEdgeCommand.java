@@ -8,7 +8,9 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.notation;
+
+import java.util.function.Supplier;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -22,12 +24,12 @@ import com.eclipsesource.uml.modelserver.unotation.UnotationFactory;
 public class AddAssociationEdgeCommand extends UmlNotationElementCommand {
 
    protected String semanticProxyUri;
-   protected Association newAssociation;
+   protected Supplier<Association> associationSupplier;
 
-   public AddAssociationEdgeCommand(final EditingDomain domain, final URI modelUri) {
+   private AddAssociationEdgeCommand(final EditingDomain domain, final URI modelUri) {
       super(domain, modelUri);
-      this.newAssociation = null;
       this.semanticProxyUri = null;
+      this.associationSupplier = null;
    }
 
    public AddAssociationEdgeCommand(final EditingDomain domain, final URI modelUri, final String semanticProxyUri) {
@@ -35,9 +37,10 @@ public class AddAssociationEdgeCommand extends UmlNotationElementCommand {
       this.semanticProxyUri = semanticProxyUri;
    }
 
-   public AddAssociationEdgeCommand(final EditingDomain domain, final URI modelUri, final Association newAssociation) {
+   public AddAssociationEdgeCommand(final EditingDomain domain, final URI modelUri,
+      final Supplier<Association> associationSupplier) {
       this(domain, modelUri);
-      this.newAssociation = newAssociation;
+      this.associationSupplier = associationSupplier;
    }
 
    @Override
@@ -45,10 +48,10 @@ public class AddAssociationEdgeCommand extends UmlNotationElementCommand {
       Edge newEdge = UnotationFactory.eINSTANCE.createEdge();
 
       SemanticProxy proxy = UnotationFactory.eINSTANCE.createSemanticProxy();
-      if (this.semanticProxyUri != null && this.newAssociation == null) {
+      if (this.semanticProxyUri != null) {
          proxy.setUri(this.semanticProxyUri);
       } else {
-         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri(newAssociation));
+         proxy.setUri(UmlNotationCommandUtil.getSemanticProxyUri(associationSupplier.get()));
       }
       newEdge.setSemanticElement(proxy);
 

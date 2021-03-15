@@ -17,7 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.SetClassNameCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetClassNameCommand;
 
 public class SetClassNameCommandContribution extends UmlSemanticCommandContribution {
 

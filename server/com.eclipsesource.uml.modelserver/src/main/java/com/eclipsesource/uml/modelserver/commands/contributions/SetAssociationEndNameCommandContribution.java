@@ -17,7 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 
-import com.eclipsesource.uml.modelserver.commands.SetAssociationEndNameCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetAssociationEndNameCommand;
 
 public class SetAssociationEndNameCommandContribution extends UmlSemanticCommandContribution {
 

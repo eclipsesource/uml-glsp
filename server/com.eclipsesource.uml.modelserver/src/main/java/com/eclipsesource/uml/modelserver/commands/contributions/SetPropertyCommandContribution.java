@@ -18,7 +18,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 import org.eclipse.uml2.uml.Type;
 
-import com.eclipsesource.uml.modelserver.commands.SetPropertyCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetPropertyCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
 public class SetPropertyCommandContribution extends UmlSemanticCommandContribution {

@@ -8,22 +8,23 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
-import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.glsp.graph.GPoint;
-import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.uml2.uml.Model;
 
-public class AddClassCommand extends CompoundCommand {
+import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-   public AddClassCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
+public abstract class UmlSemanticElementCommand extends RecordingCommand {
 
-      Class newClass = UMLFactory.eINSTANCE.createClass();
-      this.append(new AddClassElementCommand(domain, modelUri, newClass));
-      this.append(new AddClassShapeCommand(domain, modelUri, newClass, classPosition));
+   protected final Model umlModel;
+
+   public UmlSemanticElementCommand(final EditingDomain domain, final URI modelUri) {
+      super((TransactionalEditingDomain) domain);
+      this.umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
    }
 
 }

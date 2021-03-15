@@ -8,25 +8,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.notation;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.glsp.graph.GPoint;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
-import com.eclipsesource.uml.modelserver.unotation.Edge;
+import com.eclipsesource.uml.modelserver.unotation.Shape;
 
-public class RemoveAssociationEdgeCommand extends UmlNotationElementCommand {
+public class ChangeBoundsCommand extends UmlNotationElementCommand {
 
-   protected final Edge edgeToRemove;
+   protected final GPoint shapePosition;
+   protected final Shape shape;
 
-   public RemoveAssociationEdgeCommand(final EditingDomain domain, final URI modelUri, final String semanticProxyUri) {
+   public ChangeBoundsCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticProxyUri, final GPoint shapePosition) {
       super(domain, modelUri);
-      this.edgeToRemove = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Edge.class);
+      this.shapePosition = shapePosition;
+      this.shape = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Shape.class);
    }
 
    @Override
    protected void doExecute() {
-      umlDiagram.getElements().remove(edgeToRemove);
+      shape.setPosition(shapePosition);
    }
+
 }

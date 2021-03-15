@@ -8,31 +8,33 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Type;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class SetPropertyTypeCommand extends UmlSemanticElementCommand {
+public class SetAssociationEndMultiplicityCommand extends UmlSemanticElementCommand {
 
    protected String semanticUriFragment;
-   protected Type newType;
+   protected int newLowerBound;
+   protected int newUpperBound;
 
-   public SetPropertyTypeCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
-      final Type newType) {
+   public SetAssociationEndMultiplicityCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticUriFragment, final int newLowerBound, final int newUpperBound) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
-      this.newType = newType;
+      this.newLowerBound = newLowerBound;
+      this.newUpperBound = newUpperBound;
    }
 
    @Override
    protected void doExecute() {
       Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
-      property.setType(newType);
+      property.setLower(newLowerBound);
+      property.setUpper(newUpperBound);
    }
 
 }

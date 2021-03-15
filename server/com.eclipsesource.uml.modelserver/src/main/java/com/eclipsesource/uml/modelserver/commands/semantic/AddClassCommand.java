@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -17,17 +17,13 @@ import org.eclipse.uml2.uml.UMLFactory;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class AddClassElementCommand extends UmlSemanticElementCommand {
+public class AddClassCommand extends UmlSemanticElementCommand {
 
    protected final Class newClass;
 
-   public AddClassElementCommand(final EditingDomain domain, final URI modelUri, final Class newClass) {
+   public AddClassCommand(final EditingDomain domain, final URI modelUri) {
       super(domain, modelUri);
-      this.newClass = newClass;
-   }
-
-   public AddClassElementCommand(final EditingDomain domain, final URI modelUri) {
-      this(domain, modelUri, UMLFactory.eINSTANCE.createClass());
+      this.newClass = UMLFactory.eINSTANCE.createClass();
    }
 
    @Override
@@ -35,5 +31,7 @@ public class AddClassElementCommand extends UmlSemanticElementCommand {
       newClass.setName(UmlSemanticCommandUtil.getNewClassName(umlModel));
       umlModel.getPackagedElements().add(newClass);
    }
+
+   public Class getNewClass() { return newClass; }
 
 }

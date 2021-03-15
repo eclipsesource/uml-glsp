@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -18,30 +18,27 @@ import org.eclipse.uml2.uml.UMLFactory;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class AddAssociationElementCommand extends UmlSemanticElementCommand {
+public class AddAssociationCommand extends UmlSemanticElementCommand {
 
-   protected final Association newAssociation;
+   private final Association newAssociation;
    protected final Class sourceClass;
    protected final Class targetClass;
 
-   public AddAssociationElementCommand(final EditingDomain domain, final URI modelUri,
+   public AddAssociationCommand(final EditingDomain domain, final URI modelUri,
       final String sourceClassUriFragment, final String targetClassUriFragment) {
-      this(domain, modelUri, UMLFactory.eINSTANCE.createAssociation(), sourceClassUriFragment, targetClassUriFragment);
-   }
-
-   public AddAssociationElementCommand(final EditingDomain domain, final URI modelUri,
-      final Association newAssociation, final String sourceClassUriFragment, final String targetClassUriFragment) {
       super(domain, modelUri);
-      this.newAssociation = newAssociation;
+      this.newAssociation = UMLFactory.eINSTANCE.createAssociation();
       this.sourceClass = UmlSemanticCommandUtil.getElement(umlModel, sourceClassUriFragment, Class.class);
       this.targetClass = UmlSemanticCommandUtil.getElement(umlModel, targetClassUriFragment, Class.class);
    }
 
    @Override
    protected void doExecute() {
-      newAssociation.createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(sourceClass), sourceClass);
-      newAssociation.createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(targetClass), targetClass);
-      umlModel.getPackagedElements().add(newAssociation);
+      getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(sourceClass), sourceClass);
+      getNewAssociation().createOwnedEnd(UmlSemanticCommandUtil.getNewAssociationEndName(targetClass), targetClass);
+      umlModel.getPackagedElements().add(getNewAssociation());
    }
+
+   public Association getNewAssociation() { return newAssociation; }
 
 }

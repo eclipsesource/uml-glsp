@@ -8,30 +8,33 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.notation;
+
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.glsp.graph.GPoint;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
-import com.eclipsesource.uml.modelserver.unotation.Shape;
+import com.eclipsesource.uml.modelserver.unotation.Edge;
 
-public class ChangeBoundsCommand extends UmlNotationElementCommand {
+public class ChangeRoutingPointsCommand extends UmlNotationElementCommand {
 
-   protected final GPoint shapePosition;
-   protected final Shape shape;
+   protected final Edge edge;
+   protected final List<GPoint> newRoutingPoints;
 
-   public ChangeBoundsCommand(final EditingDomain domain, final URI modelUri,
-      final String semanticProxyUri, final GPoint shapePosition) {
+   public ChangeRoutingPointsCommand(final EditingDomain domain, final URI modelUri,
+      final String semanticProxyUri, final List<GPoint> newRoutingPoints) {
       super(domain, modelUri);
-      this.shapePosition = shapePosition;
-      this.shape = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Shape.class);
+      this.newRoutingPoints = newRoutingPoints;
+      this.edge = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Edge.class);
    }
 
    @Override
    protected void doExecute() {
-      shape.setPosition(shapePosition);
+      edge.getBendPoints().clear();
+      edge.getBendPoints().addAll(newRoutingPoints);
    }
 
 }

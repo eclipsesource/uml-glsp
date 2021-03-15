@@ -8,29 +8,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class RemoveAssociationElementCommand extends UmlSemanticElementCommand {
+public class SetAssociationEndNameCommand extends UmlSemanticElementCommand {
 
-   protected final String semanticUriFragment;
+   protected String semanticUriFragment;
+   protected String newName;
 
-   public RemoveAssociationElementCommand(final EditingDomain domain, final URI modelUri,
-      final String semanticUriFragment) {
+   public SetAssociationEndNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+      final String newName) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
+      this.newName = newName;
    }
 
    @Override
    protected void doExecute() {
-      Association associationToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment,
-         Association.class);
-      umlModel.getPackagedElements().remove(associationToRemove);
+      Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
+      property.setName(newName);
    }
 
 }

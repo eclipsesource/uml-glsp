@@ -8,30 +8,25 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.notation;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Property;
 
-import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
+import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
+import com.eclipsesource.uml.modelserver.unotation.Edge;
 
-public class SetPropertyNameCommand extends UmlSemanticElementCommand {
+public class RemoveAssociationEdgeCommand extends UmlNotationElementCommand {
 
-   protected String semanticUriFragment;
-   protected String newName;
+   protected final Edge edgeToRemove;
 
-   public SetPropertyNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
-      final String newName) {
+   public RemoveAssociationEdgeCommand(final EditingDomain domain, final URI modelUri, final String semanticProxyUri) {
       super(domain, modelUri);
-      this.semanticUriFragment = semanticUriFragment;
-      this.newName = newName;
+      this.edgeToRemove = UmlNotationCommandUtil.getNotationElement(modelUri, domain, semanticProxyUri, Edge.class);
    }
 
    @Override
    protected void doExecute() {
-      Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
-      property.setName(newName);
+      umlDiagram.getElements().remove(edgeToRemove);
    }
-
 }

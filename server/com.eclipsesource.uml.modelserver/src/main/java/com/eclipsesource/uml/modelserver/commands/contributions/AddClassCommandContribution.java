@@ -19,7 +19,7 @@ import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
 import org.eclipse.glsp.graph.GPoint;
 
-import com.eclipsesource.uml.modelserver.commands.AddClassCommand;
+import com.eclipsesource.uml.modelserver.commands.compound.AddClassCompoundCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 
 public class AddClassCommandContribution extends UmlCompoundCommandContribution {
@@ -42,7 +42,7 @@ public class AddClassCommandContribution extends UmlCompoundCommandContribution 
          command.getProperties().get(UmlNotationCommandContribution.POSITION_X),
          command.getProperties().get(UmlNotationCommandContribution.POSITION_Y));
 
-      return new AddClassCommand(domain, modelUri, classPosition);
+      return new AddClassCompoundCommand(domain, modelUri, classPosition);
    }
 
 }

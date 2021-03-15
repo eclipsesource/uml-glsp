@@ -96,7 +96,6 @@ public class UmlDIOperationHandlerRegistry implements OperationHandlerRegistry {
 
    @Override
    public Set<Operation> keys() {
-      // TODO Auto-generated method stub
       return null;
    }
 }

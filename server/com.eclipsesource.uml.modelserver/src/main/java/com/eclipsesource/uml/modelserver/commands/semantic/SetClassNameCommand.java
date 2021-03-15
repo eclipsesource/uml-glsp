@@ -8,33 +8,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Class;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class SetPropertyBoundsCommand extends UmlSemanticElementCommand {
+public class SetClassNameCommand extends UmlSemanticElementCommand {
 
    protected String semanticUriFragment;
-   protected int newLowerBound;
-   protected int newUpperBound;
+   protected String newName;
 
-   public SetPropertyBoundsCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
-      final int newLowerBound, final int newUpperBound) {
+   public SetClassNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+      final String newName) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
-      this.newLowerBound = newLowerBound;
-      this.newUpperBound = newUpperBound;
+      this.newName = newName;
    }
 
    @Override
    protected void doExecute() {
-      Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
-      property.setLower(newLowerBound);
-      property.setUpper(newUpperBound);
+      Class classToRename = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Class.class);
+      classToRename.setName(newName);
    }
 
 }

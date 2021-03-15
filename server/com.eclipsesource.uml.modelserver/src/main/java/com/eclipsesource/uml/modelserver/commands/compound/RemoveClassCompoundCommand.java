@@ -8,7 +8,7 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.compound;
 
 import java.util.Collection;
 
@@ -24,13 +24,16 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.UMLPackage;
 
+import com.eclipsesource.uml.modelserver.commands.notation.RemoveClassShapeCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.RemoveClassCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.SetPropertyTypeCommand;
 import com.eclipsesource.uml.modelserver.commands.util.UmlNotationCommandUtil;
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class RemoveClassCommand extends CompoundCommand {
+public class RemoveClassCompoundCommand extends CompoundCommand {
 
-   public RemoveClassCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
-      this.append(new RemoveClassElementCommand(domain, modelUri, semanticUriFragment));
+   public RemoveClassCompoundCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
+      this.append(new RemoveClassCommand(domain, modelUri, semanticUriFragment));
       this.append(new RemoveClassShapeCommand(domain, modelUri, semanticUriFragment));
 
       Model umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
@@ -45,7 +48,7 @@ public class RemoveClassCommand extends CompoundCommand {
          } else if (isAssociationTypeUsage(setting, eObject)) {
             String associationUriFragment = UmlNotationCommandUtil
                .getSemanticProxyUri((Association) eObject.eContainer());
-            this.append(new RemoveAssociationCommand(domain, modelUri, associationUriFragment));
+            this.append(new RemoveAssociationCompoundCommand(domain, modelUri, associationUriFragment));
          }
       }
    }

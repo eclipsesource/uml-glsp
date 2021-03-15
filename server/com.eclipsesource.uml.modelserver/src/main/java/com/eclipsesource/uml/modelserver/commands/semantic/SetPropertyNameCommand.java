@@ -8,23 +8,30 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public abstract class UmlSemanticElementCommand extends RecordingCommand {
+public class SetPropertyNameCommand extends UmlSemanticElementCommand {
 
-   protected final Model umlModel;
+   protected String semanticUriFragment;
+   protected String newName;
 
-   public UmlSemanticElementCommand(final EditingDomain domain, final URI modelUri) {
-      super((TransactionalEditingDomain) domain);
-      this.umlModel = UmlSemanticCommandUtil.getModel(modelUri, domain);
+   public SetPropertyNameCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+      final String newName) {
+      super(domain, modelUri);
+      this.semanticUriFragment = semanticUriFragment;
+      this.newName = newName;
+   }
+
+   @Override
+   protected void doExecute() {
+      Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
+      property.setName(newName);
    }
 
 }

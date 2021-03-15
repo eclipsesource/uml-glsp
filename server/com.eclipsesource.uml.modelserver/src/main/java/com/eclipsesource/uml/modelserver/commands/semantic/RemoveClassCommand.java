@@ -8,32 +8,27 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class RemovePropertyCommand extends UmlSemanticElementCommand {
+public class RemoveClassCommand extends UmlSemanticElementCommand {
 
-   protected final String parentSemanticUriFragment;
    protected final String semanticUriFragment;
 
-   public RemovePropertyCommand(final EditingDomain domain, final URI modelUri, final String parentSemanticUriFragment,
-      final String semanticUriFragment) {
+   public RemoveClassCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
       super(domain, modelUri);
-      this.parentSemanticUriFragment = parentSemanticUriFragment;
       this.semanticUriFragment = semanticUriFragment;
    }
 
    @Override
    protected void doExecute() {
-      Class parentClass = UmlSemanticCommandUtil.getElement(umlModel, parentSemanticUriFragment, Class.class);
-      Property propertyToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
-      parentClass.getOwnedAttributes().remove(propertyToRemove);
+      Class classToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Class.class);
+      umlModel.getPackagedElements().remove(classToRemove);
    }
 
 }

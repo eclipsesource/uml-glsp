@@ -8,27 +8,33 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.modelserver.commands;
+package com.eclipsesource.uml.modelserver.commands.semantic;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.modelserver.commands.util.UmlSemanticCommandUtil;
 
-public class RemoveClassElementCommand extends UmlSemanticElementCommand {
+public class SetPropertyBoundsCommand extends UmlSemanticElementCommand {
 
-   protected final String semanticUriFragment;
+   protected String semanticUriFragment;
+   protected int newLowerBound;
+   protected int newUpperBound;
 
-   public RemoveClassElementCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment) {
+   public SetPropertyBoundsCommand(final EditingDomain domain, final URI modelUri, final String semanticUriFragment,
+      final int newLowerBound, final int newUpperBound) {
       super(domain, modelUri);
       this.semanticUriFragment = semanticUriFragment;
+      this.newLowerBound = newLowerBound;
+      this.newUpperBound = newUpperBound;
    }
 
    @Override
    protected void doExecute() {
-      Class classToRemove = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Class.class);
-      umlModel.getPackagedElements().remove(classToRemove);
+      Property property = UmlSemanticCommandUtil.getElement(umlModel, semanticUriFragment, Property.class);
+      property.setLower(newLowerBound);
+      property.setUpper(newUpperBound);
    }
 
 }

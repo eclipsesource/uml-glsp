@@ -12,9 +12,6 @@ package com.eclipsesource.uml.modelserver;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
-import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextRequest.getParam;
-import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.encodingError;
-import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.missingParameter;
 
 import org.eclipse.emfcloud.modelserver.common.ModelServerPathParametersV1;
 import org.eclipse.emfcloud.modelserver.common.ModelServerPathsV1;
@@ -43,29 +40,33 @@ public class UmlModelServerRouting extends ModelServerRoutingV1 {
    }
 
    protected void getUmlTypes(final Context ctx) {
-      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresentOrElse(
+      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresent(
          param -> {
             try {
                ctx.json(JsonResponse
                   .success(JsonCodec.encode(((UmlModelResourceManager) resourceManager).getUmlTypes(param))));
             } catch (EncodingException e) {
-               encodingError(ctx, e);
+               // FIXME add once modelserver dependency gets updated
+               // encodingError(ctx, e);
             }
-         },
-         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+         });
+      // FIXME add once modelserver dependency gets updated
+      // () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
    }
 
    protected void createUmlModel(final Context ctx) {
-      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresentOrElse(
+      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresent(
          param -> {
-            getParam(ctx.queryParamMap(), UmlModelServerPathsParameters.DIAGRAM_TYPE).ifPresentOrElse(
-               typeParam -> {
-                  boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(param, typeParam);
-                  ctx.json(result ? JsonResponse.success() : JsonResponse.error());
-               },
-               () -> missingParameter(ctx, UmlModelServerPathsParameters.DIAGRAM_TYPE));
-         },
-         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+            // FIXME use getParam() modelserver dependency gets updated
+            String typeParam = "";
+            if (ctx.queryParamMap().containsKey(UmlModelServerPathsParameters.DIAGRAM_TYPE)) {
+               typeParam = ctx.queryParamMap().get(UmlModelServerPathsParameters.DIAGRAM_TYPE).get(0);
+            }
+            boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(param, typeParam);
+            ctx.json(result ? JsonResponse.success() : JsonResponse.error());
+         });
+      // FIXME add once modelserver dependency gets updated
+      // () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
    }
 
    @Override

@@ -11,11 +11,13 @@
 package com.eclipsesource.uml.glsp.gmodel;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
+import com.eclipsesource.uml.modelserver.unotation.Representation;
 
 public class GModelFactoryProvider {
 
    public static GModelFactory get(final UmlModelState modelState) {
-      switch (modelState.getUmlFacade().getDiagram().getDiagramType()) {
+      Representation diagramType = modelState.getUmlFacade().getDiagram().getDiagramType();
+      switch (diagramType) {
          case CLASS: {
             return new UmlClassDiagramModelFactory(modelState);
          }

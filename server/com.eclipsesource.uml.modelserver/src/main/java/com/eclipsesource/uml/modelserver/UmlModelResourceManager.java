@@ -191,7 +191,7 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
       SemanticProxy semanticProxy = UnotationFactory.eINSTANCE.createSemanticProxy();
       semanticProxy.setUri(EcoreUtil.getURI(model).fragment());
       newDiagram.setSemanticElement(semanticProxy);
-      newDiagram.setType(UmlNotationUtil.getRepresentation(diagramType));
+      newDiagram.setDiagramType(UmlNotationUtil.getRepresentation(diagramType));
       return newDiagram;
    }
 

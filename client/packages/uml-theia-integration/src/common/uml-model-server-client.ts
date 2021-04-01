@@ -8,9 +8,19 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { ModelServerClient, Response } from "@eclipse-emfcloud/modelserver-theia";
+import { ModelServerClient, ModelServerMessage, Response } from "@eclipse-emfcloud/modelserver-theia";
+
+export enum UmlDiagramType {
+    NONE = "",
+    ACTIVITY = "ACTIVITY",
+    CLASS = "CLASS",
+    PACKAGE = "PACKAGE",
+    SEQUENCE = "SEQUENCE",
+    STATEMACHINE = "STATEMACHINE",
+    USECASE = "USECASE"
+}
 
 export const UmlModelServerClient = Symbol("UmlModelServerClient");
 export interface UmlModelServerClient extends ModelServerClient {
-    create(modelName: string): Promise<Response<string>>;
+    createUmlResource(modelName: string, diagramType: UmlDiagramType): Promise<Response<ModelServerMessage>>;
 }

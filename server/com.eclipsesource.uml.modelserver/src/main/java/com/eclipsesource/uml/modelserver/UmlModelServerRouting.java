@@ -12,6 +12,9 @@ package com.eclipsesource.uml.modelserver;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextRequest.getParam;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.encodingError;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.missingParameter;
 
 import org.eclipse.emfcloud.modelserver.common.ModelServerPathParametersV1;
 import org.eclipse.emfcloud.modelserver.common.ModelServerPathsV1;
@@ -34,25 +37,35 @@ public class UmlModelServerRouting extends ModelServerRoutingV1 {
 
    @Inject
    public UmlModelServerRouting(final Javalin javalin, final ModelResourceManager resourceManager,
-      final ModelController modelController,
-      final SchemaController schemaController, final ServerController serverController,
-      final SessionController sessionController) {
+      final ModelController modelController, final SchemaController schemaController,
+      final ServerController serverController, final SessionController sessionController) {
       super(javalin, resourceManager, modelController, schemaController, serverController, sessionController);
    }
 
    protected void getUmlTypes(final Context ctx) {
-      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresent(
+      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresentOrElse(
          param -> {
             try {
                ctx.json(JsonResponse
                   .success(JsonCodec.encode(((UmlModelResourceManager) resourceManager).getUmlTypes(param))));
             } catch (EncodingException e) {
-               // FIXME investigate why cannot be accessed
-               // encodingError(ctx, e);
+               encodingError(ctx, e);
             }
-         });
-      // FIXME investigate why cannot be accessed
-      // () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+         },
+         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+   }
+
+   protected void createUmlModel(final Context ctx) {
+      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresentOrElse(
+         param -> {
+            getParam(ctx.queryParamMap(), UmlModelServerPathsParameters.DIAGRAM_TYPE).ifPresentOrElse(
+               typeParam -> {
+                  boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(param, typeParam);
+                  ctx.json(result ? JsonResponse.success() : JsonResponse.error());
+               },
+               () -> missingParameter(ctx, UmlModelServerPathsParameters.DIAGRAM_TYPE));
+         },
+         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
    }
 
    @Override
@@ -66,6 +79,7 @@ public class UmlModelServerRouting extends ModelServerRoutingV1 {
 
    private void apiEndpoints() {
       get(UmlModelServerPaths.UML_TYPES, this::getUmlTypes);
+      get(UmlModelServerPaths.UML_CREATE, this::createUmlModel);
    }
 
 }

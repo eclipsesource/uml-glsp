@@ -10,11 +10,10 @@
  ********************************************************************************/
 package com.eclipsesource.uml.modelserver;
 
-import org.eclipse.emfcloud.modelserver.common.ModelServerPathsV1;
+import org.eclipse.emfcloud.modelserver.common.ModelServerPathParametersV1;
 
-public interface UmlModelServerPaths extends ModelServerPathsV1 {
+public interface UmlModelServerPathsParameters extends ModelServerPathParametersV1 {
 
-   String UML_TYPES = "uml/types";
-   String UML_CREATE = "uml/create";
+   String DIAGRAM_TYPE = "diagramtype";
 
 }

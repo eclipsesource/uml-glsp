@@ -25,12 +25,12 @@ import { FileNavigatorCommands, NavigatorContextMenu } from "@theia/navigator/li
 import { WorkspaceService } from "@theia/workspace/lib/browser";
 import { inject, injectable } from "inversify";
 
-import { UmlModelServerClient } from "../common/uml-model-server-client";
+import { UmlDiagramType, UmlModelServerClient } from "../common/uml-model-server-client";
 
-export const NEW_UML_CLASS_DIAGRAM_COMMAND: Command = {
-    id: "file.newUmlClassDiagram",
+export const NEW_UML_DIAGRAM_COMMAND: Command = {
+    id: "file.newUmlDiagram",
     category: "File",
-    label: "New UML Class Diagram",
+    label: "New UML Diagram",
     iconClass: "umlmodelfile"
 };
 
@@ -45,14 +45,16 @@ export class UmlModelContribution implements CommandContribution, MenuContributi
     @inject(UmlModelServerClient) protected readonly modelServerClient: UmlModelServerClient;
 
     registerCommands(registry: CommandRegistry): void {
-        registry.registerCommand(NEW_UML_CLASS_DIAGRAM_COMMAND, {
+        registry.registerCommand(NEW_UML_DIAGRAM_COMMAND, {
             execute: () => {
                 let workspaceUri: URI = new URI();
                 if (this.workspaceService.tryGetRoots().length) {
                     workspaceUri = new URI(this.workspaceService.tryGetRoots()[0].uri);
 
-                    this.showInput("Name", "Name of UML Class Diagram", nameOfUmlModel => {
-                        this.createUmlClassDiagram(nameOfUmlModel, workspaceUri);
+                    this.showInput("Name", "Name of UML Diagram", nameOfUmlModel => {
+                        this.showInput("Diagram type", "Type of UML Diagram (activity | class | package | sequence | statemachine | usecase)", diagramType => {
+                            this.createUmlDiagram(nameOfUmlModel, workspaceUri, diagramType);
+                        });
                     });
                 }
             }
@@ -78,11 +80,11 @@ export class UmlModelContribution implements CommandContribution, MenuContributi
         this.quickOpenService.open(quickOpenModel, this.getOptions(hint, false));
     }
 
-    protected createUmlClassDiagram(classDiagramName: string, workspaceUri: URI): void {
-        if (classDiagramName) {
-            this.modelServerClient.create(classDiagramName).then(() => {
+    protected createUmlDiagram(diagramName: string, workspaceUri: URI, diagramType: string): void {
+        if (diagramName) {
+            this.modelServerClient.createUmlResource(diagramName, this.getUmlDiagramType(diagramType)).then(() => {
                 this.quickOpenService.hide();
-                const modelUri = new URI(workspaceUri.path.toString() + `/${classDiagramName}/model/${classDiagramName}.uml`);
+                const modelUri = new URI(workspaceUri.path.toString() + `/${diagramName}/model/${diagramName}.uml`);
                 this.commandService.executeCommand(FileNavigatorCommands.REFRESH_NAVIGATOR.id);
                 this.openerService.getOpener(modelUri).then(openHandler => {
                     openHandler.open(modelUri);
@@ -92,18 +94,30 @@ export class UmlModelContribution implements CommandContribution, MenuContributi
         }
     }
 
+    protected getUmlDiagramType(diagramType: string): UmlDiagramType {
+        switch (diagramType.toLowerCase()) {
+            case ("activity"): return UmlDiagramType.ACTIVITY;
+            case ("class"): return UmlDiagramType.CLASS;
+            case ("package"): return UmlDiagramType.PACKAGE;
+            case ("sequence"): return UmlDiagramType.SEQUENCE;
+            case ("statemachine"): return UmlDiagramType.STATEMACHINE;
+            case ("usecase"): return UmlDiagramType.USECASE;
+        }
+        return UmlDiagramType.NONE;
+    }
+
     registerMenus(menus: MenuModelRegistry): void {
         menus.registerMenuAction(CommonMenus.FILE_NEW, {
-            commandId: NEW_UML_CLASS_DIAGRAM_COMMAND.id,
-            label: NEW_UML_CLASS_DIAGRAM_COMMAND.label,
-            icon: NEW_UML_CLASS_DIAGRAM_COMMAND.iconClass,
+            commandId: NEW_UML_DIAGRAM_COMMAND.id,
+            label: NEW_UML_DIAGRAM_COMMAND.label,
+            icon: NEW_UML_DIAGRAM_COMMAND.iconClass,
             order: "0"
         });
 
         menus.registerMenuAction(NavigatorContextMenu.NAVIGATION, {
-            commandId: NEW_UML_CLASS_DIAGRAM_COMMAND.id,
-            label: NEW_UML_CLASS_DIAGRAM_COMMAND.label,
-            icon: NEW_UML_CLASS_DIAGRAM_COMMAND.iconClass,
+            commandId: NEW_UML_DIAGRAM_COMMAND.id,
+            label: NEW_UML_DIAGRAM_COMMAND.label,
+            icon: NEW_UML_DIAGRAM_COMMAND.iconClass,
             order: "0"
         });
 

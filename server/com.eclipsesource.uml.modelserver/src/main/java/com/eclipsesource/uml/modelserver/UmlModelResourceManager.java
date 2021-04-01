@@ -21,7 +21,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -32,6 +31,7 @@ import org.eclipse.emfcloud.modelserver.emf.configuration.ServerConfiguration;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
@@ -148,36 +148,50 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
       return listOfClassifiers;
    }
 
-   @Override
-   public void addResource(final String modeluri, final EObject model) throws IOException {
+   public boolean addUmlResources(final String modeluri, final String diagramType) {
+      URI umlModelUri = createURI(modeluri);
       ResourceSet resourceSet = new ResourceSetImpl();
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION,
          UMLResource.Factory.INSTANCE);
       UMLResourcesUtil.init(resourceSet);
-      resourceSets.put(createURI(modeluri), resourceSet);
+      resourceSets.put(umlModelUri, resourceSet);
       loadResourceLibraries(resourceSet);
 
-      final Resource umlResource = resourceSet.createResource(createURI(modeluri));
-      resourceSet.getResources().add(umlResource);
-      umlResource.getContents().add(model);
-      umlResource.save(null);
+      final Model umlModel = createNewModel(umlModelUri);
 
-      final Resource umlNotationResource = resourceSet
-         .createResource(
-            createURI(modeluri).trimFileExtension().appendFileExtension(UmlNotationUtil.NOTATION_EXTENSION));
-      resourceSet.getResources().add(umlNotationResource);
-      umlNotationResource.getContents().add(createNewClassDiagram((Model) model));
-      umlNotationResource.save(null);
+      try {
+         final Resource umlResource = resourceSet.createResource(umlModelUri);
+         resourceSet.getResources().add(umlResource);
+         umlResource.getContents().add(umlModel);
+         umlResource.save(null);
 
-      createEditingDomain(resourceSet);
+         final Resource umlNotationResource = resourceSet
+            .createResource(umlModelUri.trimFileExtension().appendFileExtension(UmlNotationUtil.NOTATION_EXTENSION));
+         resourceSet.getResources().add(umlNotationResource);
+         umlNotationResource.getContents().add(createNewDiagram(umlModel, diagramType));
+         umlNotationResource.save(null);
+         createEditingDomain(resourceSet);
+
+      } catch (IOException e) {
+         return false;
+      }
+
+      return true;
    }
 
-   protected Diagram createNewClassDiagram(final Model model) {
+   protected Model createNewModel(final URI modelUri) {
+      Model newModel = UMLFactory.eINSTANCE.createModel();
+      String modelName = modelUri.lastSegment().split("." + modelUri.fileExtension())[0];
+      newModel.setName(modelName);
+      return newModel;
+   }
+
+   protected Diagram createNewDiagram(final Model model, final String diagramType) {
       Diagram newDiagram = UnotationFactory.eINSTANCE.createDiagram();
       SemanticProxy semanticProxy = UnotationFactory.eINSTANCE.createSemanticProxy();
       semanticProxy.setUri(EcoreUtil.getURI(model).fragment());
       newDiagram.setSemanticElement(semanticProxy);
-      newDiagram.setType(UmlNotationUtil.CLASS_REPRESENTATION);
+      newDiagram.setType(UmlNotationUtil.getRepresentation(diagramType));
       return newDiagram;
    }
 

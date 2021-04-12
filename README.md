@@ -16,7 +16,7 @@ The following libraries/frameworks need to be installed on your system:
 |-|-|
 |[Node.js](https://nodejs.org/en/)|`>= 12.14.1 AND < 13`|
 |[Yarn](https://classic.yarnpkg.com/en/docs/install#debian-stable)|`>=1.7.0`|
-|[Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)|`>=11`|
+|[Java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)|`11`|
 |[Maven](https://maven.apache.org/)|`>=3.6.0`|
 |[Git](https://git-scm.com/downloads)|`>= 2.11.0`|
 
@@ -38,6 +38,16 @@ The server components have to be built using Maven, the client component has to 
 
     cd server && mvn clean install && cd ..
     cd client && yarn && cd ..
+
+#### Resolving build issues under Windows/MacOS
+
+- Missing build tools result in following error: <br/>
+  `gyp err! stack error: could not find any visual studio installation to use`
+  - Windows: <br/>
+    - Install via `npm install --global --vs2015 windows-build-tools`
+    - Check that `npm config get msvs_version` returns `2015`
+  - Mac OS: <br/>
+    - Install [Xcode](https://developer.apple.com/xcode/) developer tools
 
 ### Run
 

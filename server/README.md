@@ -2,7 +2,7 @@
 
 ## Getting started with the Eclipse IDE
 
-- Please make sure your Eclipse workspace uses a JRE of Java 11 or higher.
+- Please make sure your Eclipse workspace uses a JRE of Java 11.
 - We use the [Eclipse Modeling Tools](https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-modeling-tools)
 - The following Eclipse plugins are required:
   - The M2Eclipse (Maven Integration for Eclipse) plugin:

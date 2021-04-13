@@ -54,6 +54,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCo
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetEnumerationNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
@@ -262,6 +263,14 @@ public class UmlModelServerAccess {
       String semanticProxyUri = getSemanticUriFragment(enumerationToRemove);
       CCompoundCommand compoundCommand = RemoveEnumerationCommandContribution.create(semanticProxyUri);
       return this.edit(compoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setEnumerationName(final UmlModelState modelState,
+      final Enumeration enumerationToRename, final String newName) {
+
+      CCommand setEnumerationNameCommand = SetEnumerationNameCommandContribution.create(
+         getSemanticUriFragment(enumerationToRename), newName);
+      return this.edit(setEnumerationNameCommand);
    }
 
    protected CompletableFuture<Response<Boolean>> edit(final CCommand command) {

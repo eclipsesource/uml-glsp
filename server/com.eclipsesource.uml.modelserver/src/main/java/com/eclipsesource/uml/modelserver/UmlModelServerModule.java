@@ -33,6 +33,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCo
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetEnumerationNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 
 public class UmlModelServerModule extends DefaultModelServerModule {
@@ -73,6 +74,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // UML Enumeration
       binding.put(AddEnumerationCommandContribution.TYPE, AddEnumerationCommandContribution.class);
       binding.put(RemoveEnumerationCommandContribution.TYPE, RemoveEnumerationCommandContribution.class);
+      binding.put(SetEnumerationNameCommandContribution.TYPE, SetEnumerationNameCommandContribution.class);
    }
 
    @Override

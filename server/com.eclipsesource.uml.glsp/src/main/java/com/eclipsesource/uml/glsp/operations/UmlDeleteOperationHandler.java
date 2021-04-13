@@ -19,6 +19,7 @@ import org.eclipse.glsp.server.operations.DeleteOperation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -57,6 +58,13 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
                if (!response.body()) {
                   throw new GLSPServerException(
                      "Could not execute delete operation on Property: " + semanticElement.toString());
+               }
+            });
+         } else if (semanticElement instanceof Enumeration) {
+            modelAccess.removeEnumeration(modelState, (Enumeration) semanticElement).thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException(
+                     "Could not execute delete operation on Enumeration: " + semanticElement.toString());
                }
             });
          }

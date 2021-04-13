@@ -33,6 +33,7 @@ import org.eclipse.glsp.server.types.ElementAndBounds;
 import org.eclipse.glsp.server.types.ElementAndRoutingPoints;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -48,6 +49,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsComm
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveEnumerationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
@@ -252,6 +254,14 @@ public class UmlModelServerAccess {
       CCompoundCommand addEnumerationCompoundCommand = AddEnumerationCommandContribution
          .create(newPosition.orElse(GraphUtil.point(0, 0)));
       return this.edit(addEnumerationCompoundCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeEnumeration(final UmlModelState modelState,
+      final Enumeration enumerationToRemove) {
+
+      String semanticProxyUri = getSemanticUriFragment(enumerationToRemove);
+      CCompoundCommand compoundCommand = RemoveEnumerationCommandContribution.create(semanticProxyUri);
+      return this.edit(compoundCommand);
    }
 
    protected CompletableFuture<Response<Boolean>> edit(final CCommand command) {

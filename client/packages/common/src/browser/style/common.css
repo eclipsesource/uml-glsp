@@ -55,3 +55,7 @@
 .umlproperty {
     background-image: var(--uml-icon-property);
 }
+
+.umlenumeration {
+    background-image: var(--uml-icon-enumeration);
+}

@@ -21,5 +21,8 @@ export namespace UmlTypes {
     export const CLASS = `${BaseTypes.NODE}:class`;
     export const ASSOCIATION = `${BaseTypes.EDGE}:association`;
     export const PROPERTY = `${BaseTypes.NODE}:property`;
+    export const ICON_ENUMERATION = `${BaseTypes.ICON}:enumeration`;
+    export const ENUMERATION = `${BaseTypes.NODE}:enumeration`;
 
 }
+

@@ -43,9 +43,11 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    @Override
    public List<ShapeTypeHint> getNodeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
-      hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS)));
+      hints.add(
+         new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS, Types.ENUMERATION)));
       hints.add(new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
+      hints.add(new ShapeTypeHint(Types.ENUMERATION, true, true, false, false));
       return hints;
    }
 
@@ -68,6 +70,9 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       mappings.put(Types.PROPERTY, GraphPackage.Literals.GLABEL);
       // UML Associations
       mappings.put(Types.ASSOCIATION, GraphPackage.Literals.GEDGE);
+      // UML Enumeration
+      mappings.put(Types.ICON_ENUMERATION, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.ENUMERATION, GraphPackage.Literals.GNODE);
       return mappings;
    }
 

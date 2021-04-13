@@ -72,6 +72,10 @@ export class IconClass extends Icon {
     iconImageName = "Class.svg";
 }
 
+export class IconEnumeration extends Icon {
+    iconImageName = "Enumeration.svg";
+}
+
 export class SLabelNode extends SLabel implements EditableLabel {
     hoverFeedback = false;
     imageName: string;
@@ -85,3 +89,4 @@ export class SLabelNode extends SLabel implements EditableLabel {
 export class SLabelNodeProperty extends SLabelNode {
     imageName = "Property.svg";
 }
+

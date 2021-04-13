@@ -25,6 +25,8 @@ public final class UmlConfig {
       public static final String CLASS = "node:class";
       public static final String PROPERTY = "node:property";
       public static final String ASSOCIATION = "edge:association";
+      public static final String ICON_ENUMERATION = "icon:enumeration";
+      public static final String ENUMERATION = "node:enumeration";
 
       private Types() {}
    }

@@ -67,9 +67,9 @@ import { EditLabelUI } from "sprotty/lib";
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { LabelSelectionFeedback } from "./feedback";
-import { IconClass, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
+import { IconClass, IconEnumeration, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./model";
 import { BaseTypes, UmlTypes } from "./utils";
-import { ClassNodeView, IconView, LabelNodeView } from "./views";
+import { ClassNodeView, EnumerationNodeView, IconView, LabelNodeView } from "./views";
 
 export default (containerId: string): Container => {
     const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
@@ -94,6 +94,8 @@ export default (containerId: string): Container => {
         configureModelElement(context, BaseTypes.ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
         configureModelElement(context, BaseTypes.VOLATILE_ROUTING_POINT, SRoutingHandle, SRoutingHandleView);
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.ICON_ENUMERATION, IconEnumeration, IconView);
+        configureModelElement(context, UmlTypes.ENUMERATION, LabeledNode, EnumerationNodeView);
         configureViewerOptions(context, {
             needsClientLayout: true,
             baseDiv: containerId
@@ -110,3 +112,4 @@ export default (containerId: string): Container => {
     return container;
 
 };
+

@@ -10,6 +10,7 @@
  ********************************************************************************/
 /** @jsx svg */
 /* eslint-disable react/jsx-key */
+import { SLabel } from "@eclipse-glsp/client";
 import { injectable } from "inversify";
 import { svg } from "snabbdom-jsx";
 import { VNode } from "snabbdom/vnode";
@@ -33,6 +34,27 @@ export class ClassNodeView extends RectangularNodeView {
             {context.renderChildren(node)}
             {(node.children[1] && node.children[1].children.length > 0) ?
                 <path class-uml-comp-separator={true} d={rhombStr}></path> : ""}
+        </g>;
+    }
+}
+
+@injectable()
+export class EnumerationNodeView extends RectangularNodeView {
+    render(node: LabeledNode, context: RenderingContext): VNode {
+        if (node.children[0].children[0] instanceof SLabel) {
+            const enumTypeLabel = node.children[0].children[0] as SLabel;
+            const enumText = enumTypeLabel.text;
+            enumTypeLabel.text = enumText.replace("<<", "«").replace(">>", "»");
+        }
+        return <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
+            <defs>
+                <filter id="dropShadow">
+                    <feDropShadow dx="1.5" dy="1.5" stdDeviation="0.5" style-flood-color="var(--uml-drop-shadow)" style-flood-opacity="0.5" />
+                </filter>
+            </defs>
+
+            <rect x={0} y={0} rx={2} ry={2} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
+            {context.renderChildren(node)}
         </g>;
     }
 }

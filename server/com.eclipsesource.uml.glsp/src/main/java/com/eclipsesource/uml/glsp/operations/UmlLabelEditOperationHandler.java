@@ -96,7 +96,7 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             modelAccess.setAssociationEndMultiplicity(modelState, associationEnd, getBoundsFromInput(inputText))
                .thenAccept(response -> {
                   if (!response.body()) {
-                     throw new GLSPServerException("Could not change Association End Name to: " + inputText);
+                     throw new GLSPServerException("Could not change Association End Multiplicity to: " + inputText);
                   }
                });
             break;

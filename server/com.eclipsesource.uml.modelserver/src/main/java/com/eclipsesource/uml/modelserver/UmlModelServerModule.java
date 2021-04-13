@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddEnumerationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
@@ -73,6 +74,8 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(ChangeBoundsCommandContribution.TYPE, ChangeBoundsCommandContribution.class);
       // ChangeRoutingPoints
       binding.put(ChangeRoutingPointsCommandContribution.TYPE, ChangeRoutingPointsCommandContribution.class);
+      // UML Enumeration
+      binding.put(AddEnumerationCommandContribution.TYPE, AddEnumerationCommandContribution.class);
    }
 
    @Override

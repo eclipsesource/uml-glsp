@@ -40,6 +40,7 @@ import com.eclipsesource.uml.modelserver.UmlModelServerClient;
 import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddEnumerationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
@@ -235,6 +236,17 @@ public class UmlModelServerAccess extends EMSModelServerAccess {
          compoundCommand.getCommands().add(changeRoutingPointsCommand);
       });
       return this.edit(compoundCommand);
+   }
+
+   /*
+    * UML Enumeration
+    */
+   public CompletableFuture<Response<Boolean>> addEnumeration(final UmlModelState modelState,
+      final Optional<GPoint> newPosition) {
+
+      CCompoundCommand addEnumerationCompoundCommand = AddEnumerationCommandContribution
+         .create(newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addEnumerationCompoundCommand);
    }
 
 }

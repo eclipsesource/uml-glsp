@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -25,6 +25,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -94,6 +95,10 @@ public final class UmlSemanticCommandUtil {
 
    public static String getNewClassName(final Model umlModel) {
       return UmlSemanticCommandUtil.getNewPackageableElementName(Class.class, umlModel);
+   }
+
+   public static String getNewEnumerationName(final Model umlModel) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(Enumeration.class, umlModel);
    }
 
    private static String getNewPackageableElementName(final java.lang.Class<? extends PackageableElement> umlClassifier,

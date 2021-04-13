@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -29,7 +29,7 @@ public class CreateClassifierNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS);
+   private static List<String> handledElementTypeIds = Lists.newArrayList(Types.CLASS, Types.ENUMERATION);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -51,6 +51,15 @@ public class CreateClassifierNodeOperationHandler
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new Class node");
+                  }
+               });
+            break;
+         }
+         case Types.ENUMERATION: {
+            modelAccess.addEnumeration(getUmlModelState(), operation.getLocation())
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not execute create operation on new Enumeration node");
                   }
                });
             break;

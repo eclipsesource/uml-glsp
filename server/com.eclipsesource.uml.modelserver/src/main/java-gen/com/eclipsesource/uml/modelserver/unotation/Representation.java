@@ -84,7 +84,23 @@ public enum Representation implements Enumerator {
     * @generated
     * @ordered
     */
-   USECASE(5, "USECASE", "USECASE");
+   USECASE(5, "USECASE", "USECASE"), /**
+    * The '<em><b>DEPLOYMENT</b></em>' literal object.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #DEPLOYMENT_VALUE
+    * @generated
+    * @ordered
+    */
+   DEPLOYMENT(6, "DEPLOYMENT", "DEPLOYMENT"), /**
+    * The '<em><b>COMPONENT</b></em>' literal object.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #COMPONENT_VALUE
+    * @generated
+    * @ordered
+    */
+   COMPONENT(7, "COMPONENT", "COMPONENT");
 
    /**
     * The '<em><b>ACTIVITY</b></em>' literal value.
@@ -153,6 +169,28 @@ public enum Representation implements Enumerator {
    public static final int USECASE_VALUE = 5;
 
    /**
+    * The '<em><b>DEPLOYMENT</b></em>' literal value.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #DEPLOYMENT
+    * @model
+    * @generated
+    * @ordered
+    */
+   public static final int DEPLOYMENT_VALUE = 6;
+
+   /**
+    * The '<em><b>COMPONENT</b></em>' literal value.
+    * <!-- begin-user-doc -->
+    * <!-- end-user-doc -->
+    * @see #COMPONENT
+    * @model
+    * @generated
+    * @ordered
+    */
+   public static final int COMPONENT_VALUE = 7;
+
+   /**
     * An array of all the '<em><b>Representation</b></em>' enumerators.
     * <!-- begin-user-doc -->
     * <!-- end-user-doc -->
@@ -166,6 +204,8 @@ public enum Representation implements Enumerator {
          SEQUENCE,
          STATEMACHINE,
          USECASE,
+         DEPLOYMENT,
+         COMPONENT,
       };
 
    /**
@@ -228,6 +268,8 @@ public enum Representation implements Enumerator {
          case SEQUENCE_VALUE: return SEQUENCE;
          case STATEMACHINE_VALUE: return STATEMACHINE;
          case USECASE_VALUE: return USECASE;
+         case DEPLOYMENT_VALUE: return DEPLOYMENT;
+         case COMPONENT_VALUE: return COMPONENT;
       }
       return null;
    }

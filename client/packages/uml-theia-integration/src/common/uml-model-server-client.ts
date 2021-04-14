@@ -14,6 +14,8 @@ export enum UmlDiagramType {
     NONE = "",
     ACTIVITY = "ACTIVITY",
     CLASS = "CLASS",
+    COMPONENT = "COMPONENT",
+    DEPLOYMENT = "DEPLOYMENT",
     PACKAGE = "PACKAGE",
     SEQUENCE = "SEQUENCE",
     STATEMACHINE = "STATEMACHINE",

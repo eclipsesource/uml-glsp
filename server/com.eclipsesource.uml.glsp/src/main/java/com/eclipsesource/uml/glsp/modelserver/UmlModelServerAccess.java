@@ -220,7 +220,7 @@ public class UmlModelServerAccess {
       compoundCommand.setType(ChangeBoundsCommandContribution.TYPE);
       changeBoundsMap.forEach((shape, elementAndBounds) -> {
          CCommand changeBoundsCommand = ChangeBoundsCommandContribution.create(shape.getSemanticElement().getUri(),
-            elementAndBounds.getNewPosition());
+            elementAndBounds.getNewPosition(), elementAndBounds.getNewSize());
          compoundCommand.getCommands().add(changeBoundsCommand);
       });
       return this.edit(compoundCommand);

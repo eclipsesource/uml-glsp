@@ -63,7 +63,8 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
-         } else if (shape.getSize() != null) {
+         }
+         if (shape.getSize() != null) {
             builder.size(GraphUtil.copy(shape.getSize()));
          }
       });

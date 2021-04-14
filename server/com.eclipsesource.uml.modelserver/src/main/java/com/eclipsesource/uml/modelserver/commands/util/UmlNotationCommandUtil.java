@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.glsp.graph.GDimension;
 import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -34,6 +35,13 @@ public final class UmlNotationCommandUtil {
          propertyX.isEmpty() ? 0.0d : Double.parseDouble(propertyX),
          propertyY.isEmpty() ? 0.0d : Double.parseDouble(propertyY));
       return gPoint;
+   }
+
+   public static GDimension getGDimension(final String height, final String width) {
+      GDimension gDimension = GraphUtil.dimension(
+         height.isEmpty() ? 0.0d : Double.parseDouble(height),
+         width.isEmpty() ? 0.0d : Double.parseDouble(width));
+      return gDimension;
    }
 
    public static Diagram getDiagram(final URI modelUri, final EditingDomain domain) {

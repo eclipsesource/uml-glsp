@@ -27,6 +27,7 @@ import com.eclipsesource.uml.glsp.model.UmlModelIndex;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
+import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 
 public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperationHandler<ApplyLabelEditOperation> {
 
@@ -37,15 +38,16 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
       UmlModelIndex modelIndex = modelState.getIndex();
 
       String inputText = editLabelOperation.getText().trim();
-      String elementId = editLabelOperation.getLabelId();
+      String graphicalElementId = editLabelOperation.getLabelId();
 
-      GModelElement label = getOrThrow(modelIndex.findElementByClass(elementId, GModelElement.class),
+      GModelElement label = getOrThrow(modelIndex.findElementByClass(graphicalElementId, GModelElement.class),
          GModelElement.class, "Element not found.");
 
       switch (label.getType()) {
          case Types.LABEL_NAME:
-            PackageableElement semanticElement = getOrThrow(modelIndex.getSemantic(elementId.split("_")[0]),
-               PackageableElement.class, "No valid container with id " + elementId + " found");
+            String containerElementId = UmlIDUtil.getElementIdFromHeaderLabel(graphicalElementId);
+            PackageableElement semanticElement = getOrThrow(modelIndex.getSemantic(containerElementId),
+               PackageableElement.class, "No valid container with id " + graphicalElementId + " found");
             if (semanticElement instanceof Class) {
                modelAccess.setClassName(modelState, (Class) semanticElement, inputText)
                   .thenAccept(response -> {
@@ -57,8 +59,8 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             break;
 
          case Types.PROPERTY:
-            Property classProperty = getOrThrow(modelIndex.getSemantic(elementId.split("_")[0]),
-               Property.class, "No valid container with id " + elementId + " found");
+            Property classProperty = getOrThrow(modelIndex.getSemantic(graphicalElementId),
+               Property.class, "No valid container with id " + graphicalElementId + " found");
 
             String propertyName = getNameFromInput(inputText);
             String propertyType = getTypeFromInput(inputText);
@@ -74,8 +76,9 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             break;
 
          case Types.LABEL_EDGE_NAME:
-            Property associationEnd = getOrThrow(modelIndex.getSemantic(elementId.split("_")[0]),
-               Property.class, "No valid container with id " + elementId + " found");
+            containerElementId = UmlIDUtil.getElementIdFromLabelName(graphicalElementId);
+            Property associationEnd = getOrThrow(modelIndex.getSemantic(containerElementId),
+               Property.class, "No valid container with id " + graphicalElementId + " found");
 
             modelAccess.setAssociationEndName(modelState, associationEnd, inputText)
                .thenAccept(response -> {
@@ -86,8 +89,9 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
             break;
 
          case Types.LABEL_EDGE_MULTIPLICITY:
-            associationEnd = getOrThrow(modelIndex.getSemantic(elementId.split("_")[0]),
-               Property.class, "No valid container with id " + elementId + " found");
+            containerElementId = UmlIDUtil.getElementIdFromLabelMultiplicity(graphicalElementId);
+            associationEnd = getOrThrow(modelIndex.getSemantic(containerElementId),
+               Property.class, "No valid container with id " + graphicalElementId + " found");
 
             modelAccess.setAssociationEndMultiplicity(modelState, associationEnd, getBoundsFromInput(inputText))
                .thenAccept(response -> {

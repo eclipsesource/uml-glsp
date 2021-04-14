@@ -12,7 +12,9 @@ package com.eclipsesource.uml.glsp.util;
 
 import org.eclipse.uml2.uml.Property;
 
-public class UmlLabelUtil {
+public final class UmlLabelUtil {
+
+   private UmlLabelUtil() {}
 
    public static String getTypeName(final Property property) {
       if (property.getType() != null) {

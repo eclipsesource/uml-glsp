@@ -17,6 +17,7 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.common.codecs.DecodingException;
+import org.eclipse.glsp.graph.GDimension;
 import org.eclipse.glsp.graph.GPoint;
 
 import com.eclipsesource.uml.modelserver.commands.notation.ChangeBoundsCommand;
@@ -26,12 +27,14 @@ public class ChangeBoundsCommandContribution extends UmlNotationCommandContribut
 
    public static final String TYPE = "changeBounds";
 
-   public static CCommand create(final String semanticUri, final GPoint position) {
+   public static CCommand create(final String semanticUri, final GPoint position, final GDimension size) {
       CCommand changeBoundsCommand = CCommandFactory.eINSTANCE.createCommand();
       changeBoundsCommand.setType(TYPE);
       changeBoundsCommand.getProperties().put(SEMANTIC_PROXI_URI, semanticUri);
       changeBoundsCommand.getProperties().put(POSITION_X, String.valueOf(position.getX()));
       changeBoundsCommand.getProperties().put(POSITION_Y, String.valueOf(position.getY()));
+      changeBoundsCommand.getProperties().put(HEIGHT, String.valueOf(size.getHeight()));
+      changeBoundsCommand.getProperties().put(WIDTH, String.valueOf(size.getWidth()));
       return changeBoundsCommand;
    }
 
@@ -46,8 +49,11 @@ public class ChangeBoundsCommandContribution extends UmlNotationCommandContribut
             String semanticProxyUri = cmd.getProperties().get(SEMANTIC_PROXI_URI);
             GPoint elementPosition = UmlNotationCommandUtil.getGPoint(
                cmd.getProperties().get(POSITION_X), cmd.getProperties().get(POSITION_Y));
+            GDimension elementSize = UmlNotationCommandUtil.getGDimension(
+               cmd.getProperties().get(WIDTH), cmd.getProperties().get(HEIGHT));
 
-            changeBoundsCommand.append(new ChangeBoundsCommand(domain, modelUri, semanticProxyUri, elementPosition));
+            changeBoundsCommand
+               .append(new ChangeBoundsCommand(domain, modelUri, semanticProxyUri, elementPosition, elementSize));
          });
       }
       return changeBoundsCommand;

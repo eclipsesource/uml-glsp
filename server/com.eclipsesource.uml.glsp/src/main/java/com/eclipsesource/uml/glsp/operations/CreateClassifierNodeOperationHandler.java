@@ -55,12 +55,11 @@ public class CreateClassifierNodeOperationHandler
             break;
          }
          case Types.ENUMERATION: {
-            modelAccess.addEnumeration(UmlModelState.getModelState(modelState), operation.getLocation())
-               .thenAccept(response -> {
-                  if (!response.body()) {
-                     throw new GLSPServerException("Could not execute create operation on new Enumeration node");
-                  }
-               });
+            /*
+             * TODO Exercise 4
+             * Add request to add enumeration via UmlModelServerAccess.
+             * Make use of the existing method modelServerAccess.addEnumeration(modelState, newPosition)
+             */
             break;
          }
       }

@@ -135,10 +135,11 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
          .layout(GConstants.Layout.VBOX)
          .id(UmlIDUtil.createOuterHeaderId(toId(umlEnumeration)));
 
-      GLabel headerTypeLabel = new GLabelBuilder(Types.LABEL_TEXT)
-         .id(toId(umlEnumeration) + "_header_type")
-         .text("<<" + Enumeration.class.getSimpleName() + ">>").build();
-      outerEnumHeaderBuilder.add(headerTypeLabel);
+      /*
+       * TODO Exercise 1
+       * Create an additional header label: <<Enumeration>> as part of the enumeration header.
+       * This label should be positioned right above the existing header (icon + enumeration name compartment)
+       */
 
       GCompartmentBuilder headerCompartmentBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
          .layout(GConstants.Layout.HBOX)

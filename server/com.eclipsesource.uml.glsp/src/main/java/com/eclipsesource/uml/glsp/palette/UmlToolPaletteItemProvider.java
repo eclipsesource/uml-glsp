@@ -34,10 +34,14 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
    }
 
    private PaletteItem classifiers() {
-      PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
-      PaletteItem createEnumeration = node(Types.ENUMERATION, "Enumeration", "umlenumeration");
+      /*
+       * TODO Exercise 3
+       * Add palette item for Enumeration and make use of the existing CSS class "umlenumeration".
+       */
 
-      List<PaletteItem> classifiers = Lists.newArrayList(createClass, createEnumeration);
+      PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
+
+      List<PaletteItem> classifiers = Lists.newArrayList(createClass);
       return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
    }
 

@@ -24,6 +24,10 @@ public final class UmlNotationUtil {
             return Representation.ACTIVITY;
          case "class":
             return Representation.CLASS;
+         case "component":
+            return Representation.COMPONENT;
+         case "deployment":
+            return Representation.DEPLOYMENT;
          case "package":
             return Representation.PACKAGE;
          case "sequence":

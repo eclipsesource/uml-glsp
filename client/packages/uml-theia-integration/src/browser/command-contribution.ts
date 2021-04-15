@@ -51,24 +51,23 @@ export class UmlModelContribution implements CommandContribution, MenuContributi
                 if (this.workspaceService.tryGetRoots().length) {
                     workspaceUri = new URI(this.workspaceService.tryGetRoots()[0].uri);
 
-                    this.showInput("Name", "Name of UML Diagram", nameOfUmlModel => {
-                        this.showInput("Diagram type", "Type of UML Diagram (activity | class | package | sequence | statemachine | usecase)", diagramType => {
-                            this.createUmlDiagram(nameOfUmlModel, workspaceUri, diagramType);
-                        });
+                    this.showInput("Enter Name of UML Diagram", "Diagram name", nameOfUmlModel => {
+                        this.showInput("Enter UML Diagram Type", "activity | class | component | deployment | package | sequence | statemachine | usecase",
+                            diagramType => this.createUmlDiagram(nameOfUmlModel, workspaceUri, diagramType));
                     });
                 }
             }
         });
     }
 
-    protected showInput(hint: string, prefix: string, onEnter: (result: string) => void): void {
+    protected showInput(prefix: string, hint: string, onEnter: (result: string) => void): void {
         const quickOpenModel: QuickOpenModel = {
             onType(lookFor: string, acceptor: (items: QuickOpenItem[]) => void): void {
                 const dynamicItems: QuickOpenItem[] = [];
                 const suffix = "Press 'Enter' to confirm or 'Escape' to cancel.";
 
                 dynamicItems.push(new SingleStringInputOpenItem(
-                    `${prefix}: '${lookFor}' ${suffix}`,
+                    `${prefix}: '${lookFor}'  > ${suffix}`,
                     () => onEnter(lookFor),
                     (mode: QuickOpenMode) => mode === QuickOpenMode.OPEN,
                     () => false
@@ -98,6 +97,8 @@ export class UmlModelContribution implements CommandContribution, MenuContributi
         switch (diagramType.toLowerCase()) {
             case ("activity"): return UmlDiagramType.ACTIVITY;
             case ("class"): return UmlDiagramType.CLASS;
+            case ("component"): return UmlDiagramType.COMPONENT;
+            case ("deployment"): return UmlDiagramType.DEPLOYMENT;
             case ("package"): return UmlDiagramType.PACKAGE;
             case ("sequence"): return UmlDiagramType.SEQUENCE;
             case ("statemachine"): return UmlDiagramType.STATEMACHINE;

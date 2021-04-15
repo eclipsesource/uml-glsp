@@ -32,4 +32,6 @@ Require-Bundle: org.apache.log4j;bundle-version="[1.2.15,2.0.0)",
 Bundle-ActivationPolicy: lazy
 Export-Package: com.eclipsesource.uml.modelserver,
  com.eclipsesource.uml.modelserver.commands.contributions,
- com.eclipsesource.uml.modelserver.unotation
+ com.eclipsesource.uml.modelserver.unotation,
+ com.eclipsesource.uml.modelserver.unotation.impl,
+ com.eclipsesource.uml.modelserver.unotation.util

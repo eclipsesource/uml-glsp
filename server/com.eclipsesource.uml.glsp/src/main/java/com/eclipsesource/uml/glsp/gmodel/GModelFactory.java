@@ -28,14 +28,17 @@ public abstract class GModelFactory extends AbstractGModelFactory<EObject, GMode
 
    public GModelFactory(final UmlModelState modelState) {
       super(modelState);
-      classifierNodeFactory = new ClassifierNodeFactory(modelState, this);
       labelFactory = new LabelFactory(modelState);
       relationshipEdgeFactory = new RelationshipEdgeFactory(modelState);
+      classifierNodeFactory = new ClassifierNodeFactory(modelState, labelFactory);
       getOrCreateRoot();
    }
 
    @Override
-   public abstract GModelElement create(final EObject semanticElement);
+   public GModelElement create(final EObject semanticElement) {
+      // no-op as we focus on create(final Diagram umlDiagram)
+      return null;
+   }
 
    public abstract GGraph create(final Diagram umlDiagram);
 

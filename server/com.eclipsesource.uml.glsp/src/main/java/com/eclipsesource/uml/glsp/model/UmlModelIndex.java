@@ -11,7 +11,6 @@
 package com.eclipsesource.uml.glsp.model;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -48,6 +47,11 @@ public class UmlModelIndex extends GModelIndexImpl {
       return super.isAdapterForType(type) || UmlModelIndex.class.equals(type);
    }
 
+   public void clear() {
+      this.semanticIndex.clear();
+      this.notationIndex.clear();
+   }
+
    public void indexSemantic(final String id, final EObject semanticElement) {
       semanticIndex.putIfAbsent(id, semanticElement);
    }
@@ -56,7 +60,7 @@ public class UmlModelIndex extends GModelIndexImpl {
       if (notationElement.getSemanticElement() != null) {
          EObject semanticElement = notationElement.getSemanticElement().getResolvedElement();
          notationIndex.put(semanticElement, notationElement);
-         semanticIndex.inverse().putIfAbsent(semanticElement, UUID.randomUUID().toString());
+         semanticIndex.inverse().putIfAbsent(semanticElement, EcoreUtil.getURI(semanticElement).fragment());
       }
 
       if (notationElement instanceof Diagram) {
@@ -124,10 +128,9 @@ public class UmlModelIndex extends GModelIndexImpl {
       } else {
          id = getSemanticId(eObject).orElse(null);
          if (id == null) {
-            id = UUID.randomUUID().toString();
+            id = EcoreUtil.getURI(eObject).fragment();
             indexSemantic(id, eObject);
          }
-
       }
       return id;
 

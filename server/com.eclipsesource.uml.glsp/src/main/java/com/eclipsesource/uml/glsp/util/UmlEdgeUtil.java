@@ -12,16 +12,12 @@ package com.eclipsesource.uml.glsp.util;
 
 import org.eclipse.emf.ecore.EReference;
 
-public class UmlEdgeUtil {
+public final class UmlEdgeUtil {
+
+   private UmlEdgeUtil() {}
+
    public static String getStringId(final EReference reference) {
       return Integer.toString(reference.hashCode());
-   }
-
-   /**
-    * Retrieves the Edge Id, which is associated with this label.
-    */
-   public static String getEdgeId(final String labelId) {
-      return labelId.split("_")[0];
    }
 
 }

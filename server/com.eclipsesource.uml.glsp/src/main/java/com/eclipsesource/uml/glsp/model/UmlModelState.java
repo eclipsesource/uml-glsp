@@ -62,8 +62,12 @@ public class UmlModelState extends GModelStateImpl {
       if (notationRoot != null && !(notationRoot instanceof Diagram)) {
          throw new GLSPServerException("Error during UML diagram loading");
       }
+      // Clear modelIndex
+      UmlModelIndex modelIndex = getIndex();
+      modelIndex.clear();
+
       // If notationRoot is null it will be initialized in UmlFacade
-      this.umlFacade = new UmlFacade((Model) semanticRoot, (Diagram) notationRoot, getIndex());
+      this.umlFacade = new UmlFacade((Model) semanticRoot, (Diagram) notationRoot, modelIndex);
    }
 
    public UmlFacade getUmlFacade() { return umlFacade; }

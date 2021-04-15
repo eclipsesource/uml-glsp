@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.Relationship;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.CSS;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
+import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 import com.eclipsesource.uml.glsp.util.UmlLabelUtil;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
 
@@ -40,36 +41,44 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
    @Override
    public GEdge create(final Relationship element) {
       if (element instanceof Association) {
-         return create((Association) element);
+         return createAssociationEdge((Association) element);
       }
       return null;
    }
 
-   protected GEdge create(final Association association) {
+   protected GEdge createAssociationEdge(final Association association) {
       EList<Property> memberEnds = association.getMemberEnds();
       Property source = memberEnds.get(0);
       String sourceId = toId(source);
       Property target = memberEnds.get(1);
       String targetId = toId(target);
 
-      GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION) //
-         .id(toId(association)) //
-         .addCssClass(CSS.EDGE) //
-         .sourceId(toId(source.getType())) //
-         .targetId(toId(target.getType())) //
-         .routerKind(GConstants.RouterKind.MANHATTAN) //
-         .add(createEdgeNameLabel(source.getName(), sourceId + "_label_name", 0.1d)) //
-         .add(createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(source), sourceId + "_sourcelabel_multiplicity",
-            0.1d)) //
-         .add(createEdgeNameLabel(target.getName(), targetId + "_label_name", 0.9d)) //
-         .add(createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(target), targetId + "_targetlabel_multiplicity",
-            0.9d));
+      GEdgeBuilder builder = new GEdgeBuilder(Types.ASSOCIATION)
+         .id(toId(association))
+         .addCssClass(CSS.EDGE)
+         .sourceId(toId(source.getType()))
+         .targetId(toId(target.getType()))
+         .routerKind(GConstants.RouterKind.MANHATTAN);
+
+      GLabel sourceNameLabel = createEdgeNameLabel(source.getName(), UmlIDUtil.createLabelNameId(sourceId), 0.1d);
+      builder.add(sourceNameLabel);
+
+      GLabel sourceMultiplicityLabel = createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(source),
+         UmlIDUtil.createLabelMultiplicityId(sourceId), 0.1d);
+      builder.add(sourceMultiplicityLabel);
+
+      GLabel targetNameLabel = createEdgeNameLabel(target.getName(), UmlIDUtil.createLabelNameId(targetId), 0.9d);
+      builder.add(targetNameLabel);
+
+      GLabel targetMultiplicityLabel = createEdgeMultiplicityLabel(UmlLabelUtil.getMultiplicity(target),
+         UmlIDUtil.createLabelMultiplicityId(targetId), 0.9d);
+      builder.add(targetMultiplicityLabel);
 
       modelState.getIndex().getNotation(association, Edge.class).ifPresent(edge -> {
          if (edge.getBendPoints() != null) {
-            ArrayList<GPoint> gPoints = new ArrayList<>();
-            edge.getBendPoints().forEach(p -> gPoints.add(GraphUtil.copy(p)));
-            builder.addRoutingPoints(gPoints);
+            ArrayList<GPoint> bendPoints = new ArrayList<>();
+            edge.getBendPoints().forEach(p -> bendPoints.add(GraphUtil.copy(p)));
+            builder.addRoutingPoints(bendPoints);
          }
       });
       return builder.build();
@@ -85,14 +94,14 @@ public class RelationshipEdgeFactory extends AbstractGModelFactory<Relationship,
 
    protected GLabel createEdgeLabel(final String name, final double position, final String id, final String type,
       final String side) {
-      return new GLabelBuilder(type) //
-         .edgePlacement(new GEdgePlacementBuilder()//
-            .side(side)//
-            .position(position)//
-            .offset(2d) //
-            .rotate(false) //
-            .build())//
-         .id(id) //
+      return new GLabelBuilder(type)
+         .edgePlacement(new GEdgePlacementBuilder()
+            .side(side)
+            .position(position)
+            .offset(2d)
+            .rotate(false)
+            .build())
+         .id(id)
          .text(name).build();
    }
 

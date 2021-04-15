@@ -11,9 +11,12 @@
 package com.eclipsesource.uml.glsp.gmodel;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.glsp.graph.GCompartment;
+import org.eclipse.glsp.graph.GLabel;
+import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GNode;
 import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
@@ -28,76 +31,86 @@ import org.eclipse.uml2.uml.Property;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.util.UmlConfig.CSS;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
+import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 
 public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNode> {
 
-   private final GModelFactory parentFactory;
+   private final LabelFactory labelFactory;
 
-   public ClassifierNodeFactory(final UmlModelState modelState, final GModelFactory parentFactory) {
+   public ClassifierNodeFactory(final UmlModelState modelState, final LabelFactory labelFactory) {
       super(modelState);
-      this.parentFactory = parentFactory;
+      this.labelFactory = labelFactory;
    }
 
    @Override
    public GNode create(final Classifier classifier) {
       if (classifier instanceof Class) {
-         return create((Class) classifier);
+         return createClassNode((Class) classifier);
       }
       return null;
-   }
-
-   protected GNode create(final Class umlClass) {
-      GNodeBuilder b = new GNodeBuilder(Types.CLASS) //
-         .id(toId(umlClass)) //
-         .layout(GConstants.Layout.VBOX) //
-         .addCssClass(CSS.NODE) //
-         .add(buildHeader(umlClass))//
-         .add(createLabeledChildrenCompartment(umlClass.getAttributes(), umlClass));
-
-      applyShapeData(umlClass, b);
-      return b.build();
    }
 
    protected void applyShapeData(final Classifier classifier, final GNodeBuilder builder) {
       modelState.getIndex().getNotation(classifier, Shape.class).ifPresent(shape -> {
          if (shape.getPosition() != null) {
             builder.position(GraphUtil.copy(shape.getPosition()));
-         }
-         if (shape.getSize() != null) {
+         } else if (shape.getSize() != null) {
             builder.size(GraphUtil.copy(shape.getSize()));
          }
       });
    }
 
-   protected GCompartment buildHeader(final Classifier classifier) {
-      return new GCompartmentBuilder(Types.COMP_HEADER) //
-         .layout("hbox") //
-         .id(toId(classifier) + "_header").add(new GCompartmentBuilder(getType(classifier)) //
-            .id(toId(classifier) + "_header_icon").build()) //
-         .add(new GLabelBuilder(Types.LABEL_NAME) //
-            .id(toId(classifier) + "_header_label").text(classifier.getName()) //
-            .build()) //
-         .build();
+   protected GNode createClassNode(final Class umlClass) {
+      GNodeBuilder classNodeBuilder = new GNodeBuilder(Types.CLASS)
+         .id(toId(umlClass))
+         .layout(GConstants.Layout.VBOX)
+         .addCssClass(CSS.NODE);
+
+      applyShapeData(umlClass, classNodeBuilder);
+
+      GCompartment classHeader = buildClassHeader(umlClass);
+      classNodeBuilder.add(classHeader);
+
+      GCompartment classPropertiesCompartment = buildClassPropertiesCompartment(umlClass.getAttributes(), umlClass);
+      classNodeBuilder.add(classPropertiesCompartment);
+
+      return classNodeBuilder.build();
    }
 
-   protected GCompartment createLabeledChildrenCompartment(final Collection<? extends Property> children,
+   protected GCompartment buildClassHeader(final Class umlClass) {
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createHeaderId(toId(umlClass)));
+
+      GCompartment classHeaderIcon = new GCompartmentBuilder(Types.ICON_CLASS)
+         .id(UmlIDUtil.createHeaderIconId(toId(umlClass))).build();
+      classHeaderBuilder.add(classHeaderIcon);
+
+      GLabel classHeaderLabel = new GLabelBuilder(Types.LABEL_NAME)
+         .id(UmlIDUtil.createHeaderLabelId(toId(umlClass)))
+         .text(umlClass.getName()).build();
+      classHeaderBuilder.add(classHeaderLabel);
+
+      return classHeaderBuilder.build();
+   }
+
+   protected GCompartment buildClassPropertiesCompartment(final Collection<? extends Property> properties,
       final Classifier parent) {
-      return new GCompartmentBuilder(Types.COMP) //
-         .id(toId(parent) + "_childCompartment").layout(GConstants.Layout.VBOX) //
-         .layoutOptions(new GLayoutOptions() //
-            .hAlign(GConstants.HAlign.LEFT) //
-            .resizeContainer(true)) //
-         .addAll(children.stream() //
-            .map(parentFactory::create) //
-            .collect(Collectors.toList()))
-         .build();
+      GCompartmentBuilder classPropertiesBuilder = new GCompartmentBuilder(Types.COMP)
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
+
+      GLayoutOptions layoutOptions = new GLayoutOptions()
+         .hAlign(GConstants.HAlign.LEFT)
+         .resizeContainer(true);
+      classPropertiesBuilder.layoutOptions(layoutOptions);
+
+      List<GModelElement> propertiesLabels = properties.stream()
+         .map(labelFactory::createPropertyLabel)
+         .collect(Collectors.toList());
+      classPropertiesBuilder.addAll(propertiesLabels);
+
+      return classPropertiesBuilder.build();
    }
 
-   protected static String getType(final Classifier classifier) {
-      if (classifier instanceof Class) {
-         return Types.ICON_CLASS;
-      }
-      return "Classifier not found";
-   }
 }

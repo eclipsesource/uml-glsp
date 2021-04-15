@@ -27,6 +27,7 @@ import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -127,6 +128,10 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       GCompartment enumerationHeader = buildEnumerationHeader(umlEnumeration);
       enumerationBuilder.add(enumerationHeader);
 
+      GCompartment enumLiteralscompartment = buildEnumLiteralsCompartment(umlEnumeration.getOwnedLiterals(),
+         umlEnumeration);
+      enumerationBuilder.add(enumLiteralscompartment);
+
       return enumerationBuilder.build();
    }
 
@@ -158,4 +163,23 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
       return outerEnumHeaderBuilder.build();
    }
 
+   protected GCompartment buildEnumLiteralsCompartment(final Collection<? extends EnumerationLiteral> enumLiterals,
+      final Enumeration parent) {
+      GCompartmentBuilder childrenCompartmentBuilder = new GCompartmentBuilder(Types.COMP)
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent)))
+         .layout(GConstants.Layout.VBOX);
+
+      GLayoutOptions layoutOptions = new GLayoutOptions()
+         .hAlign(GConstants.HAlign.LEFT)
+         .resizeContainer(true);
+
+      childrenCompartmentBuilder.layoutOptions(layoutOptions);
+
+      List<GModelElement> enumLiteralLabels = enumLiterals.stream()
+         .map(literal -> this.labelFactory.createEnumLiteralLabel(literal))
+         .collect(Collectors.toList());
+      childrenCompartmentBuilder.addAll(enumLiteralLabels);
+
+      return childrenCompartmentBuilder.build();
+   }
 }

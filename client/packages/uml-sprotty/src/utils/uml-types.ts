@@ -23,6 +23,7 @@ export namespace UmlTypes {
     export const PROPERTY = `${BaseTypes.NODE}:property`;
     export const ICON_ENUMERATION = `${BaseTypes.ICON}:enumeration`;
     export const ENUMERATION = `${BaseTypes.NODE}:enumeration`;
+    export const ENUMERATION_LITERAL = `${BaseTypes.NODE}:enumerationliteral`;
 
 }
 

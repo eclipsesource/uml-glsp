@@ -19,6 +19,7 @@ import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.PackageableElement;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -32,7 +33,7 @@ public class CreateClassifierChildNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = List.of(Types.PROPERTY);
+   private static List<String> handledElementTypeIds = List.of(Types.PROPERTY, Types.ENUMERATION_LITERAL);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -59,6 +60,13 @@ public class CreateClassifierChildNodeOperationHandler
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new Property node");
+               }
+            });
+      } else if (elementTypeId.equals(Types.ENUMERATION_LITERAL) && container instanceof Enumeration) {
+         modelAccess.addEnumerationLiteral(UmlModelState.getModelState(modelState), (Enumeration) container)
+            .thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException("Could not execute create operation on new EnumerationLiteral node");
                }
             });
       }

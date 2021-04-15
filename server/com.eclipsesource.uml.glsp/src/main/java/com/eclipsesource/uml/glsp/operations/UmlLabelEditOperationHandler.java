@@ -21,6 +21,7 @@ import org.eclipse.glsp.server.model.GModelState;
 import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 
@@ -78,6 +79,19 @@ public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperation
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not change Property to: " + inputText);
+                  }
+               });
+
+            break;
+
+         case Types.ENUMERATION_LITERAL:
+            EnumerationLiteral enumLiteral = getOrThrow(modelIndex.getSemantic(graphicalElementId),
+               EnumerationLiteral.class, "No valid container with id " + graphicalElementId + " found");
+
+            modelAccess.setEnumerationLiteralName(modelState, enumLiteral, inputText)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change EnumerationLiteral to: " + inputText);
                   }
                });
 

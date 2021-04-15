@@ -59,3 +59,7 @@
 .umlenumeration {
     background-image: var(--uml-icon-enumeration);
 }
+
+.umlenumerationliteral {
+    background-image: var(--uml-icon-enumerationliteral);
+}

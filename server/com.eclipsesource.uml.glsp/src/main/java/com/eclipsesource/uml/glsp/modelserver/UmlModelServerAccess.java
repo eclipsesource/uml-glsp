@@ -34,6 +34,7 @@ import org.eclipse.glsp.server.types.ElementAndRoutingPoints;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -44,16 +45,19 @@ import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddEnumerationCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddEnumerationLiteralCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveEnumerationCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveEnumerationLiteralCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetEnumerationLiteralCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetEnumerationNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
@@ -271,6 +275,34 @@ public class UmlModelServerAccess {
       CCommand setEnumerationNameCommand = SetEnumerationNameCommandContribution.create(
          getSemanticUriFragment(enumerationToRename), newName);
       return this.edit(setEnumerationNameCommand);
+   }
+
+   /*
+    * UML Enumeration Literal
+    */
+   public CompletableFuture<Response<Boolean>> addEnumerationLiteral(final UmlModelState modelState,
+      final Enumeration parentEnumeration) {
+
+      CCommand addEnumerationLiteralCommand = AddEnumerationLiteralCommandContribution
+         .create(getSemanticUriFragment(parentEnumeration));
+      return this.edit(addEnumerationLiteralCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> removeEnumerationLiteral(final UmlModelState modelState,
+      final EnumerationLiteral literalToRemove) {
+
+      Enumeration parentEnumeration = (Enumeration) literalToRemove.eContainer();
+      CCommand removeLiteralCommand = RemoveEnumerationLiteralCommandContribution
+         .create(getSemanticUriFragment(parentEnumeration), getSemanticUriFragment(literalToRemove));
+      return this.edit(removeLiteralCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setEnumerationLiteralName(final UmlModelState modelState,
+      final EnumerationLiteral literalToRename, final String newName) {
+
+      CCommand setLiteralNameCommand = SetEnumerationLiteralCommandContribution
+         .create(getSemanticUriFragment(literalToRename), newName);
+      return this.edit(setLiteralNameCommand);
    }
 
    protected CompletableFuture<Response<Boolean>> edit(final CCommand command) {

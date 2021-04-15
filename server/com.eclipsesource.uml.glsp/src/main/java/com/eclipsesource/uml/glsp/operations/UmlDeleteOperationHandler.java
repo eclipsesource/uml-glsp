@@ -20,6 +20,7 @@ import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Property;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -67,6 +68,14 @@ public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHan
                      "Could not execute delete operation on Enumeration: " + semanticElement.toString());
                }
             });
+         } else if (semanticElement instanceof EnumerationLiteral) {
+            modelAccess.removeEnumerationLiteral(modelState, (EnumerationLiteral) semanticElement)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException(
+                        "Could not execute delete operation on EnumerationLiteral: " + semanticElement.toString());
+                  }
+               });
          }
       });
    }

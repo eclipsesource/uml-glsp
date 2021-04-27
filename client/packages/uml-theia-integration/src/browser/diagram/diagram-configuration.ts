@@ -9,6 +9,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
 import { TYPES } from "@eclipse-glsp/client/lib";
+import {
+    connectTheiaContextMenuService,
+    TheiaContextMenuService,
+    TheiaContextMenuServiceFactory
+} from "@eclipse-glsp/theia-integration/lib/browser";
 import { createUmlDiagramContainer } from "@eclipsesource/uml-sprotty/lib";
 import { SelectionService } from "@theia/core";
 import { Container, inject, injectable } from "inversify";
@@ -19,14 +24,17 @@ import { UmlGLSPTheiaDiagramServer } from "./diagram-server";
 
 @injectable()
 export class UmlDiagramConfiguration implements DiagramConfiguration {
+
     @inject(SelectionService) protected selectionService: SelectionService;
+    @inject(TheiaContextMenuServiceFactory) protected contextMenuServiceFactory: () => TheiaContextMenuService;
+
     diagramType: string = UmlLanguage.DiagramType;
 
     createContainer(widgetId: string): Container {
         const container = createUmlDiagramContainer(widgetId);
         container.bind(TYPES.ModelSource).to(UmlGLSPTheiaDiagramServer).inSingletonScope();
         container.bind(TheiaDiagramServer).toService(UmlGLSPTheiaDiagramServer);
-        // container.rebind(KeyTool).to(TheiaKeyTool).inSingletonScope()
+        connectTheiaContextMenuService(container, this.contextMenuServiceFactory);
         return container;
     }
 }

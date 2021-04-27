@@ -21,6 +21,7 @@ import {
     decorationModule,
     defaultGLSPModule,
     defaultModule,
+    DeleteElementContextMenuItemProvider,
     edgeLayoutModule,
     expandModule,
     exportModule,
@@ -76,6 +77,7 @@ export default (containerId: string): Container => {
         rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
         rebind(TYPES.LogLevel).toConstantValue(LogLevel.info);
         rebind(EditLabelUI).to(EditLabelUIAutocomplete);
+        bind(TYPES.IContextMenuItemProvider).to(DeleteElementContextMenuItemProvider);
 
         const context = { bind, unbind, isBound, rebind };
         bind(TYPES.IVNodePostprocessor).to(LabelSelectionFeedback);

@@ -12,56 +12,26 @@ import "@eclipse-glsp/client/css/glsp-sprotty.css";
 import "sprotty/css/edit-label.css";
 
 import {
-    boundsModule,
-    buttonModule,
+    configureDefaultModelElements,
     configureModelElement,
     configureViewerOptions,
     ConsoleLogger,
     copyPasteContextMenuModule,
-    decorationModule,
-    defaultGLSPModule,
-    defaultModule,
-    DeleteElementContextMenuItemProvider,
-    edgeLayoutModule,
-    expandModule,
-    exportModule,
-    fadeModule,
-    glspCommandPaletteModule,
-    glspContextMenuModule,
-    glspEditLabelModule,
-    GLSPGraph,
-    glspHoverModule,
-    glspMouseToolModule,
-    glspSelectModule,
-    glspServerCopyPasteModule,
-    HtmlRoot,
-    HtmlRootView,
-    labelEditModule,
-    labelEditUiModule,
-    layoutCommandsModule,
+    createClientContainer,
     LogLevel,
-    modelHintsModule,
-    modelSourceModule,
-    openModule,
+    overrideViewerOptions,
     PolylineEdgeView,
-    routingModule,
     saveModule,
     SCompartment,
     SCompartmentView,
     SEdge,
-    SGraphView,
     SLabel,
     SLabelView,
     SRoutingHandle,
     SRoutingHandleView,
-    toolFeedbackModule,
-    toolsModule,
-    TYPES,
-    validationModule,
-    viewportModule,
-    zorderModule
+    TYPES
 } from "@eclipse-glsp/client/lib";
-import executeCommandModule from "@eclipse-glsp/client/lib/features/execute/di.config";
+import toolPaletteModule from "@eclipse-glsp/client/lib/features/tool-palette/di.config";
 import { Container, ContainerModule } from "inversify";
 import { EditLabelUI } from "sprotty/lib";
 
@@ -72,17 +42,15 @@ import { IconClass, LabeledNode, SEditableLabel, SLabelNodeProperty } from "./mo
 import { BaseTypes, UmlTypes } from "./utils";
 import { ClassNodeView, IconView, LabelNodeView } from "./views";
 
-export default (containerId: string): Container => {
+export default function createContainer(widgetId: string): Container {
     const classDiagramModule = new ContainerModule((bind, unbind, isBound, rebind) => {
         rebind(TYPES.ILogger).to(ConsoleLogger).inSingletonScope();
         rebind(TYPES.LogLevel).toConstantValue(LogLevel.info);
         rebind(EditLabelUI).to(EditLabelUIAutocomplete);
-        bind(TYPES.IContextMenuItemProvider).to(DeleteElementContextMenuItemProvider);
 
         const context = { bind, unbind, isBound, rebind };
         bind(TYPES.IVNodePostprocessor).to(LabelSelectionFeedback);
-        configureModelElement(context, BaseTypes.GRAPH, GLSPGraph, SGraphView);
-        configureModelElement(context, BaseTypes.HTML, HtmlRoot, HtmlRootView);
+        configureDefaultModelElements(context);
         configureModelElement(context, UmlTypes.CLASS, LabeledNode, ClassNodeView);
         configureModelElement(context, UmlTypes.LABEL_NAME, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.LABEL_EDGE_NAME, SEditableLabel, SLabelView);
@@ -98,17 +66,16 @@ export default (containerId: string): Container => {
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
         configureViewerOptions(context, {
             needsClientLayout: true,
-            baseDiv: containerId
+            baseDiv: widgetId
         });
     });
 
-    const container = new Container();
-    container.load(decorationModule, validationModule, defaultModule, glspMouseToolModule, defaultGLSPModule, glspSelectModule, boundsModule, viewportModule, toolsModule,
-        glspHoverModule, fadeModule, exportModule, expandModule, openModule, buttonModule, modelSourceModule, labelEditModule, labelEditUiModule, glspEditLabelModule,
-        classDiagramModule, saveModule, executeCommandModule, toolFeedbackModule, modelHintsModule, glspContextMenuModule, glspServerCopyPasteModule,
-        copyPasteContextMenuModule, glspCommandPaletteModule, umlToolPaletteModule, routingModule, edgeLayoutModule, zorderModule,
-        layoutCommandsModule);
-
+    const container = createClientContainer(classDiagramModule, umlToolPaletteModule, saveModule, copyPasteContextMenuModule);
+    container.unload(toolPaletteModule);
+    overrideViewerOptions(container, {
+        baseDiv: widgetId,
+        hiddenDiv: widgetId + "_hidden"
+    });
     return container;
+}
 
-};

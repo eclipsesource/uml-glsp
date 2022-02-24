@@ -36,14 +36,14 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
       PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
 
       List<PaletteItem> classifiers = Lists.newArrayList(createClass);
-      return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "symbol-property");
    }
 
    private PaletteItem relations() {
       PaletteItem createAssociation = edge(Types.ASSOCIATION, "Association", "umlassociation");
 
       List<PaletteItem> edges = Lists.newArrayList(createAssociation);
-      return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "symbol-property");
    }
 
    private PaletteItem features() {
@@ -51,7 +51,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
       List<PaletteItem> features = Lists.newArrayList(createProperty);
 
-      return PaletteItem.createPaletteGroup("uml.feature", "Feature", features, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.feature", "Feature", features, "symbol-property");
    }
 
    private PaletteItem node(final String elementTypeId, final String label, final String icon) {

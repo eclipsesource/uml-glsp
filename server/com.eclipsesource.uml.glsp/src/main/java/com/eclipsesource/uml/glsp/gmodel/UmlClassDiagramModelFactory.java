@@ -23,7 +23,7 @@ import org.eclipse.uml2.uml.Model;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
 
-public class UmlClassDiagramModelFactory extends GModelFactory {
+public class UmlClassDiagramModelFactory extends DiagramFactory {
 
    public UmlClassDiagramModelFactory(final UmlModelState modelState) {
       super(modelState);

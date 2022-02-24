@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emfcloud.modelserver.emf.common.RecordingModelResourceManager;
+import org.eclipse.emfcloud.modelserver.emf.common.watchers.ModelWatchersManager;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
 import org.eclipse.emfcloud.modelserver.emf.configuration.ServerConfiguration;
 import org.eclipse.uml2.uml.DataType;
@@ -45,8 +46,8 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
 
    @Inject
    public UmlModelResourceManager(final Set<EPackageConfiguration> configurations, final AdapterFactory adapterFactory,
-      final ServerConfiguration serverConfiguration) {
-      super(configurations, adapterFactory, serverConfiguration);
+      final ServerConfiguration serverConfiguration, final ModelWatchersManager watchersManager) {
+      super(configurations, adapterFactory, serverConfiguration, watchersManager);
    }
 
    @Override
@@ -90,8 +91,7 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
                resourceSets.put(absolutePath, resourceSet);
                loadResourceLibraries(resourceSet);
             }
-            loadResource(absolutePath.toString(),
-               false /* do not remove unloadable resources on workspace startup */);
+            loadResource(absolutePath.toString());
          }
       }
    }

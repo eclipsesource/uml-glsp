@@ -18,7 +18,6 @@ import org.eclipse.glsp.server.actions.TriggerEdgeCreationAction;
 import org.eclipse.glsp.server.actions.TriggerNodeCreationAction;
 import org.eclipse.glsp.server.features.toolpalette.PaletteItem;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
-import org.eclipse.glsp.server.model.GModelState;
 
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
@@ -28,7 +27,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
    private static Logger LOGGER = Logger.getLogger(UmlToolPaletteItemProvider.class.getSimpleName());
 
    @Override
-   public List<PaletteItem> getItems(final Map<String, String> args, final GModelState modelState) {
+   public List<PaletteItem> getItems(final Map<String, String> args) {
       LOGGER.info("Create palette");
       return Lists.newArrayList(classifiers(), relations(), features());
    }

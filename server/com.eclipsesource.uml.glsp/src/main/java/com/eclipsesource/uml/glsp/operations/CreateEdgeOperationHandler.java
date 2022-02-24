@@ -10,14 +10,14 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.operations;
 
-import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
+import static org.eclipse.glsp.server.types.GLSPServerException.getOrThrow;
 
 import java.util.List;
 
-import org.eclipse.glsp.server.model.GModelState;
+import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicCreateOperationHandler;
 import org.eclipse.glsp.server.operations.CreateEdgeOperation;
 import org.eclipse.glsp.server.operations.Operation;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
 
 import com.eclipsesource.uml.glsp.model.UmlModelIndex;
@@ -26,7 +26,8 @@ import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
 
-public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOperationHandler<CreateEdgeOperation> {
+public class CreateEdgeOperationHandler
+   extends EMSBasicCreateOperationHandler<CreateEdgeOperation, UmlModelServerAccess> {
 
    public CreateEdgeOperationHandler() {
       super(handledElementTypeIds);
@@ -43,12 +44,13 @@ public class CreateEdgeOperationHandler extends ModelServerAwareBasicCreateOpera
       return false;
    }
 
+   protected UmlModelState getUmlModelState() { return (UmlModelState) getEMSModelState(); }
+
    @Override
-   public void executeOperation(final CreateEdgeOperation operation, final GModelState graphicalModelState,
-      final UmlModelServerAccess modelAccess) throws Exception {
+   public void executeOperation(final CreateEdgeOperation operation, final UmlModelServerAccess modelAccess) {
       String elementTypeId = operation.getElementTypeId();
 
-      UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
+      UmlModelState modelState = getUmlModelState();
       UmlModelIndex modelIndex = modelState.getIndex();
 
       Class sourceClass = getOrThrow(modelIndex.getSemantic(operation.getSourceElementId(), Class.class),

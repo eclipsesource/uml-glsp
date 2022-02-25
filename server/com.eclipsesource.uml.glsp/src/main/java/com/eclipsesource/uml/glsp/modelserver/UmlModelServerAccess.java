@@ -24,7 +24,6 @@ import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
 import org.eclipse.emfcloud.modelserver.glsp.EMSModelServerAccess;
-import org.eclipse.emfcloud.modelserver.glsp.notation.epackage.NotationUtil;
 import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.util.GraphUtil;
 import org.eclipse.glsp.server.types.ElementAndBounds;
@@ -38,6 +37,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.UmlModelServerClient;
+import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
@@ -65,7 +65,7 @@ public class UmlModelServerAccess extends EMSModelServerAccess {
       super(sourceURI, modelServerClient, UMLResource.FILE_EXTENSION);
       Preconditions.checkNotNull(modelServerClient);
       this.modelServerClient = modelServerClient;
-      this.notationFileExtension = NotationUtil.NOTATION_EXTENSION;
+      this.notationFileExtension = UmlNotationUtil.NOTATION_EXTENSION;
    }
 
    @Override

@@ -10,7 +10,8 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp;
 
-import org.eclipse.emfcloud.modelserver.glsp.notation.integration.EMSNotationGLSPModule;
+import org.eclipse.emfcloud.modelserver.glsp.EMSGLSPModule;
+import org.eclipse.emfcloud.modelserver.glsp.model.EMSModelState;
 import org.eclipse.glsp.server.actions.Action;
 import org.eclipse.glsp.server.actions.ActionHandler;
 import org.eclipse.glsp.server.di.MultiBinding;
@@ -34,16 +35,18 @@ import com.eclipsesource.uml.glsp.diagram.UmlDiagramConfiguration;
 import com.eclipsesource.uml.glsp.layout.UmlLayoutEngine;
 import com.eclipsesource.uml.glsp.model.UmlModelFactory;
 import com.eclipsesource.uml.glsp.model.UmlModelSourceLoader;
+import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.operations.CreateClassifierChildNodeOperationHandler;
 import com.eclipsesource.uml.glsp.operations.CreateClassifierNodeOperationHandler;
 import com.eclipsesource.uml.glsp.operations.CreateEdgeOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlChangeBoundsOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlChangeRoutingPointsOperationHandler;
+import com.eclipsesource.uml.glsp.operations.UmlCompoundOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlDeleteOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlLabelEditOperationHandler;
 import com.eclipsesource.uml.glsp.palette.UmlToolPaletteItemProvider;
 
-public class UmlGLSPModule extends EMSNotationGLSPModule {
+public class UmlGLSPModule extends EMSGLSPModule {
 
    @Override
    protected void configureActionHandlers(final MultiBinding<ActionHandler> bindings) {
@@ -54,6 +57,11 @@ public class UmlGLSPModule extends EMSNotationGLSPModule {
    @Override
    protected Class<? extends OperationHandlerRegistry> bindOperationHandlerRegistry() {
       return UmlDIOperationHandlerRegistry.class;
+   }
+
+   @Override
+   protected Class<? extends EMSModelState> bindGModelState() {
+      return UmlModelState.class;
    }
 
    @Override
@@ -85,7 +93,7 @@ public class UmlGLSPModule extends EMSNotationGLSPModule {
    @Override
    protected void configureOperationHandlers(final MultiBinding<OperationHandler> bindings) {
       super.configureOperationHandlers(bindings);
-      bindings.add(CompoundOperationHandler.class);
+      bindings.rebind(CompoundOperationHandler.class, UmlCompoundOperationHandler.class);
       bindings.rebind(ApplyLabelEditOperationHandler.class, UmlLabelEditOperationHandler.class);
       bindings.rebind(ChangeBoundsOperationHandler.class, UmlChangeBoundsOperationHandler.class);
       bindings.rebind(ChangeRoutingPointsHandler.class, UmlChangeRoutingPointsOperationHandler.class);

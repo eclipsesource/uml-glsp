@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="Uml GLSP Editor Targetplatform 2021-09" sequenceNumber="1645707909">
+<target name="Uml GLSP Editor Targetplatform 2021-09" sequenceNumber="1646665663">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.glsp.feature.feature.group" version="0.9.0"/>
-      <unit id="org.eclipse.glsp.layout" version="0.9.0"/>
-      <unit id="org.eclipse.glsp.graph" version="0.9.0"/>
-      <repository location="https://download.eclipse.org/glsp/server/p2/releases/0.9.0/"/>
+      <unit id="org.eclipse.glsp.feature.feature.group" version="0.10.0.202203070850"/>
+      <unit id="org.eclipse.glsp.layout" version="0.10.0.202203070850"/>
+      <unit id="org.eclipse.glsp.graph" version="0.10.0.202203070850"/>
+      <repository location="https://download.eclipse.org/glsp/server/p2/nightly/0.10/0.10.0.202203070850"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.elk.core" version="0.7.1"/>
@@ -43,14 +43,14 @@
       <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20210602031627/repository/"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.emfcloud.modelserver.feature.feature.group" version="0.7.0.202201070845"/>
-      <repository location="https://download.eclipse.org/emfcloud/modelserver/p2/nightly/0.7/0.7.0.202201070845/"/>
+      <unit id="org.eclipse.emfcloud.modelserver.feature.feature.group" version="0.7.0.202202071330"/>
+      <repository location="https://download.eclipse.org/emfcloud/modelserver/p2/nightly/0.7/0.7.0.202202071330/"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.emfcloud.modelserver.glsp.feature.feature.group" version="0.7.0.202201101227"/>
-      <unit id="org.eclipse.emfcloud.modelserver.glsp.notation.model" version="0.7.0.202201101227"/>
-      <unit id="org.eclipse.emfcloud.modelserver.glsp.notation.commands" version="0.7.0.202201101227"/>
-      <repository location="https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202201101227/"/>
+      <unit id="org.eclipse.emfcloud.modelserver.glsp.feature.feature.group" version="0.7.0.202202031232"/>
+      <unit id="org.eclipse.emfcloud.modelserver.glsp.notation.model" version="0.7.0.202202031232"/>
+      <unit id="org.eclipse.emfcloud.modelserver.glsp.notation.commands" version="0.7.0.202202031232"/>
+      <repository location="https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202202031232/"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.emfcloud.emfjson-jackson" version="1.3.1.20210901085939"/>

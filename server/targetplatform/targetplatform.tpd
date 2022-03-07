@@ -2,10 +2,10 @@ target "Uml GLSP Editor Targetplatform 2021-09" with requirements, source
 
 // Target platform for the Uml GLSP Editor
 
-location "https://download.eclipse.org/glsp/server/p2/releases/0.9.0/" {
-	org.eclipse.glsp.feature.feature.group [0.9.0,0.10.0)
-	org.eclipse.glsp.layout [0.9.0,0.10.0)
-	org.eclipse.glsp.graph [0.9.0,0.10.0)
+location "https://download.eclipse.org/glsp/server/p2/nightly/0.10/0.10.0.202203070850" {
+	org.eclipse.glsp.feature.feature.group [0.10.0,0.11.0)
+	org.eclipse.glsp.layout [0.10.0,0.11.0)
+	org.eclipse.glsp.graph [0.10.0,0.11.0)
 }
 
 location "https://download.eclipse.org/elk/updates/releases/0.7.1/" {
@@ -43,11 +43,11 @@ location "https://download.eclipse.org/tools/orbit/downloads/drops/R202106020316
 	javax.servlet [3.1.0,4.0.0)
 }
 
-location "https://download.eclipse.org/emfcloud/modelserver/p2/nightly/0.7/0.7.0.202201070845/" {
+location "https://download.eclipse.org/emfcloud/modelserver/p2/nightly/0.7/0.7.0.202202071330/" {
 	org.eclipse.emfcloud.modelserver.feature.feature.group [0.7.0,0.8.0)
 }
 
-location "https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202201101227/" {
+location "https://download.eclipse.org/emfcloud/modelserver-glsp-integration/p2/nightly/0.7/0.7.0.202202031232/" {
 	org.eclipse.emfcloud.modelserver.glsp.feature.feature.group [0.7.0,0.8.0)
 	org.eclipse.emfcloud.modelserver.glsp.notation.model [0.7.0,0.8.0)
 	org.eclipse.emfcloud.modelserver.glsp.notation.commands [0.7.0,0.8.0)

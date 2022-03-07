@@ -29,6 +29,7 @@ import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsComm
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemoveClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.RemoveEnumerationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
@@ -76,6 +77,7 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       binding.put(ChangeRoutingPointsCommandContribution.TYPE, ChangeRoutingPointsCommandContribution.class);
       // UML Enumeration
       binding.put(AddEnumerationCommandContribution.TYPE, AddEnumerationCommandContribution.class);
+      binding.put(RemoveEnumerationCommandContribution.TYPE, RemoveEnumerationCommandContribution.class);
    }
 
    @Override

@@ -14,9 +14,11 @@ import URI from "@theia/core/lib/common/uri";
 import { FileStat } from "@theia/filesystem/lib/common";
 import { injectable } from "inversify";
 
+import { AnyObject } from "./util";
+
 @injectable()
 export class UmlTreeLabelProviderContribution implements LabelProviderContribution {
-    canHandle(uri: object): number {
+    canHandle(uri: AnyObject): number {
         let toCheck: any = uri;
         if (FileStat.is(toCheck)) {
             toCheck = new URI(toCheck.uri);

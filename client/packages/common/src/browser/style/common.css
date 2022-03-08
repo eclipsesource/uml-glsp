@@ -9,19 +9,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
 
-.p-Menu-itemIcon.fa.fa-project-diagram {
-    font-size: smaller;
-}
-
-.p-Menu-itemIcon.fa.fa-project-diagram:before {
-    font-family: "Font Awesome 5 Free";
-}
-
 .umlmodelfile {
     background-image: url(../../../resources/icons/UMLModelFile.gif);
     height: 16px;
     width: 16px;
-    margin-left: -3px;
+    padding-right: 6px;
+    background-repeat: no-repeat;
 }
 
 .p-TabBar.theia-app-centers .p-TabBar-tabIcon.umlmodelfileTabIcon {

@@ -17,20 +17,18 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emfcloud.modelserver.client.ModelServerClientApi;
-import org.eclipse.emfcloud.modelserver.client.NotificationSubscriptionListener;
 import org.eclipse.emfcloud.modelserver.client.Response;
 import org.eclipse.emfcloud.modelserver.command.CCommand;
 import org.eclipse.emfcloud.modelserver.command.CCommandFactory;
 import org.eclipse.emfcloud.modelserver.command.CCompoundCommand;
+import org.eclipse.emfcloud.modelserver.glsp.EMSModelServerAccess;
 import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.glsp.graph.util.GraphUtil;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
 import org.eclipse.glsp.server.types.ElementAndBounds;
 import org.eclipse.glsp.server.types.ElementAndRoutingPoints;
+import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.NamedElement;
@@ -56,32 +54,22 @@ import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 import com.google.common.base.Preconditions;
 
-public class UmlModelServerAccess {
+public class UmlModelServerAccess extends EMSModelServerAccess {
 
    private static Logger LOGGER = Logger.getLogger(UmlModelServerAccess.class);
 
-   private static final String FORMAT_XMI = "xmi";
-
-   private final URI baseSourceUri;
-
    private final UmlModelServerClient modelServerClient;
-   private NotificationSubscriptionListener<EObject> subscriptionListener;
+   protected String notationFileExtension;
 
    public UmlModelServerAccess(final String sourceURI, final UmlModelServerClient modelServerClient) {
+      super(sourceURI, modelServerClient, UMLResource.FILE_EXTENSION);
       Preconditions.checkNotNull(modelServerClient);
-      this.baseSourceUri = URI.createURI(sourceURI, true).trimFileExtension();
       this.modelServerClient = modelServerClient;
+      this.notationFileExtension = UmlNotationUtil.NOTATION_EXTENSION;
    }
 
-   public String getSemanticURI() { return baseSourceUri.appendFileExtension(UMLResource.FILE_EXTENSION).toString(); }
-
-   public String getNotationURI() {
-      return baseSourceUri.appendFileExtension(UmlNotationUtil.NOTATION_EXTENSION).toString();
-   }
-
-   public ModelServerClientApi<EObject> getModelServerClient() { return modelServerClient; }
-
-   public EObject getModel() {
+   @Override
+   public EObject getSemanticModel() {
       try {
          return modelServerClient.get(getSemanticURI(), UMLResource.FILE_EXTENSION).thenApply(res -> res.body()).get();
       } catch (InterruptedException | ExecutionException e) {
@@ -90,25 +78,14 @@ public class UmlModelServerAccess {
       }
    }
 
+   public String getNotationURI() { return baseSourceUri.appendFileExtension(this.notationFileExtension).toString(); }
+
    public EObject getNotationModel() {
       try {
          return modelServerClient.get(getNotationURI(), FORMAT_XMI).thenApply(res -> res.body()).get();
       } catch (InterruptedException | ExecutionException e) {
          LOGGER.error(e);
          throw new GLSPServerException("Error during model loading", e);
-      }
-   }
-
-   public void subscribe(final NotificationSubscriptionListener<EObject> subscriptionListener) {
-      LOGGER.debug("UmlModelServerAccess - subscribe");
-      this.subscriptionListener = subscriptionListener;
-      this.modelServerClient.subscribe(getSemanticURI(), subscriptionListener, FORMAT_XMI);
-   }
-
-   public void unsubscribe() {
-      LOGGER.debug("UmlModelServerAccess - unsubscribe");
-      if (subscriptionListener != null) {
-         this.modelServerClient.unsubscribe(getSemanticURI());
       }
    }
 
@@ -240,34 +217,6 @@ public class UmlModelServerAccess {
          compoundCommand.getCommands().add(changeRoutingPointsCommand);
       });
       return this.edit(compoundCommand);
-   }
-
-   protected CompletableFuture<Response<Boolean>> edit(final CCommand command) {
-      return this.modelServerClient.edit(getSemanticURI(), command, FORMAT_XMI);
-   }
-
-   public boolean save() {
-      try {
-         return this.modelServerClient.save(getSemanticURI()).thenApply(res -> res.body()).get();
-      } catch (InterruptedException | ExecutionException e) {
-         return false;
-      }
-   }
-
-   public boolean undo() {
-      try {
-         return this.modelServerClient.undo(getSemanticURI()).thenApply(res -> res.body()).get();
-      } catch (InterruptedException | ExecutionException e) {
-         return false;
-      }
-   }
-
-   public boolean redo() {
-      try {
-         return this.modelServerClient.redo(getSemanticURI()).thenApply(res -> res.body()).get();
-      } catch (InterruptedException | ExecutionException e) {
-         return false;
-      }
    }
 
 }

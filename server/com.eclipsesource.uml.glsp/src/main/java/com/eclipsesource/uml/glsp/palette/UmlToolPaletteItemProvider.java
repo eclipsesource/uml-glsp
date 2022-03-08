@@ -18,7 +18,6 @@ import org.eclipse.glsp.server.actions.TriggerEdgeCreationAction;
 import org.eclipse.glsp.server.actions.TriggerNodeCreationAction;
 import org.eclipse.glsp.server.features.toolpalette.PaletteItem;
 import org.eclipse.glsp.server.features.toolpalette.ToolPaletteItemProvider;
-import org.eclipse.glsp.server.model.GModelState;
 
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
@@ -28,7 +27,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
    private static Logger LOGGER = Logger.getLogger(UmlToolPaletteItemProvider.class.getSimpleName());
 
    @Override
-   public List<PaletteItem> getItems(final Map<String, String> args, final GModelState modelState) {
+   public List<PaletteItem> getItems(final Map<String, String> args) {
       LOGGER.info("Create palette");
       return Lists.newArrayList(classifiers(), relations(), features());
    }
@@ -37,14 +36,14 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
       PaletteItem createClass = node(Types.CLASS, "Class", "umlclass");
 
       List<PaletteItem> classifiers = Lists.newArrayList(createClass);
-      return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.classifier", "Classifier", classifiers, "symbol-property");
    }
 
    private PaletteItem relations() {
       PaletteItem createAssociation = edge(Types.ASSOCIATION, "Association", "umlassociation");
 
       List<PaletteItem> edges = Lists.newArrayList(createAssociation);
-      return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.relation", "Relation", edges, "symbol-property");
    }
 
    private PaletteItem features() {
@@ -52,7 +51,7 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
       List<PaletteItem> features = Lists.newArrayList(createProperty);
 
-      return PaletteItem.createPaletteGroup("uml.feature", "Feature", features, "fa-hammer");
+      return PaletteItem.createPaletteGroup("uml.feature", "Feature", features, "symbol-property");
    }
 
    private PaletteItem node(final String elementTypeId, final String label, final String icon) {

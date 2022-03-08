@@ -17,14 +17,15 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.glsp.graph.DefaultTypes;
 import org.eclipse.glsp.graph.GraphPackage;
-import org.eclipse.glsp.server.diagram.DiagramConfiguration;
-import org.eclipse.glsp.server.diagram.EdgeTypeHint;
-import org.eclipse.glsp.server.diagram.ShapeTypeHint;
+import org.eclipse.glsp.server.diagram.BaseDiagramConfiguration;
+import org.eclipse.glsp.server.layout.ServerLayoutKind;
+import org.eclipse.glsp.server.types.EdgeTypeHint;
+import org.eclipse.glsp.server.types.ShapeTypeHint;
 
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
 
-public class UmlDiagramConfiguration implements DiagramConfiguration {
+public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
 
    @Override
    public String getDiagramType() { return "umldiagram"; }
@@ -41,7 +42,7 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
    }
 
    @Override
-   public List<ShapeTypeHint> getNodeTypeHints() {
+   public List<ShapeTypeHint> getShapeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
       hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS)));
       hints.add(new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY)));
@@ -70,5 +71,8 @@ public class UmlDiagramConfiguration implements DiagramConfiguration {
       mappings.put(Types.ASSOCIATION, GraphPackage.Literals.GEDGE);
       return mappings;
    }
+
+   @Override
+   public ServerLayoutKind getLayoutKind() { return ServerLayoutKind.MANUAL; }
 
 }

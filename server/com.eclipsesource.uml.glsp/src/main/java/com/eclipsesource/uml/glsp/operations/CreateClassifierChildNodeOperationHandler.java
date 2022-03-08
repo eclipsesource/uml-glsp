@@ -10,14 +10,14 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.operations;
 
-import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
+import static org.eclipse.glsp.server.types.GLSPServerException.getOrThrow;
 
 import java.util.List;
 
-import org.eclipse.glsp.server.model.GModelState;
+import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicCreateOperationHandler;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.PackageableElement;
 
@@ -26,7 +26,7 @@ import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 
 public class CreateClassifierChildNodeOperationHandler
-   extends ModelServerAwareBasicCreateOperationHandler<CreateNodeOperation> {
+   extends EMSBasicCreateOperationHandler<CreateNodeOperation, UmlModelServerAccess> {
 
    public CreateClassifierChildNodeOperationHandler() {
       super(handledElementTypeIds);
@@ -43,10 +43,11 @@ public class CreateClassifierChildNodeOperationHandler
       return false;
    }
 
+   protected UmlModelState getUmlModelState() { return (UmlModelState) getEMSModelState(); }
+
    @Override
-   public void executeOperation(final CreateNodeOperation operation, final GModelState graphicalModelState,
-      final UmlModelServerAccess modelAccess) throws Exception {
-      UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
+   public void executeOperation(final CreateNodeOperation operation, final UmlModelServerAccess modelAccess) {
+      UmlModelState modelState = getUmlModelState();
 
       String containerId = operation.getContainerId();
       String elementTypeId = operation.getElementTypeId();

@@ -12,10 +12,10 @@ package com.eclipsesource.uml.glsp.operations;
 
 import java.util.List;
 
-import org.eclipse.glsp.server.model.GModelState;
+import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicCreateOperationHandler;
 import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
@@ -23,7 +23,7 @@ import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.google.common.collect.Lists;
 
 public class CreateClassifierNodeOperationHandler
-   extends ModelServerAwareBasicCreateOperationHandler<CreateNodeOperation> {
+   extends EMSBasicCreateOperationHandler<CreateNodeOperation, UmlModelServerAccess> {
 
    public CreateClassifierNodeOperationHandler() {
       super(handledElementTypeIds);
@@ -40,13 +40,14 @@ public class CreateClassifierNodeOperationHandler
       return false;
    }
 
+   protected UmlModelState getUmlModelState() { return (UmlModelState) getEMSModelState(); }
+
    @Override
-   public void executeOperation(final CreateNodeOperation operation, final GModelState modelState,
-      final UmlModelServerAccess modelAccess) throws Exception {
+   public void executeOperation(final CreateNodeOperation operation, final UmlModelServerAccess modelAccess) {
 
       switch (operation.getElementTypeId()) {
          case Types.CLASS: {
-            modelAccess.addClass(UmlModelState.getModelState(modelState), operation.getLocation())
+            modelAccess.addClass(getUmlModelState(), operation.getLocation())
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not execute create operation on new Class node");

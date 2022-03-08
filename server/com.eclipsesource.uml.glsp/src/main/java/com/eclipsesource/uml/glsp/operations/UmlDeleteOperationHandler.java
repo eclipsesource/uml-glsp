@@ -10,13 +10,13 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.operations;
 
-import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
+import static org.eclipse.glsp.server.types.GLSPServerException.getOrThrow;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.glsp.server.model.GModelState;
+import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicOperationHandler;
 import org.eclipse.glsp.server.operations.DeleteOperation;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Property;
@@ -24,15 +24,16 @@ import org.eclipse.uml2.uml.Property;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
 
-public class UmlDeleteOperationHandler extends ModelServerAwareBasicOperationHandler<DeleteOperation> {
+public class UmlDeleteOperationHandler extends EMSBasicOperationHandler<DeleteOperation, UmlModelServerAccess> {
 
    static Logger LOGGER = Logger.getLogger(UmlDeleteOperationHandler.class.getSimpleName());
 
-   @Override
-   public void executeOperation(final DeleteOperation operation, final GModelState graphicalModelState,
-      final UmlModelServerAccess modelAccess) throws Exception {
+   protected UmlModelState getUmlModelState() { return (UmlModelState) getEMSModelState(); }
 
-      UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
+   @Override
+   public void executeOperation(final DeleteOperation operation, final UmlModelServerAccess modelAccess) {
+
+      UmlModelState modelState = getUmlModelState();
       operation.getElementIds().forEach(elementId -> {
 
          EObject semanticElement = getOrThrow(modelState.getIndex().getSemantic(elementId),

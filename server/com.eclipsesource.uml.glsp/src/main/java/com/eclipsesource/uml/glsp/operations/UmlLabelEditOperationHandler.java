@@ -10,15 +10,15 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp.operations;
 
-import static org.eclipse.glsp.server.protocol.GLSPServerException.getOrThrow;
+import static org.eclipse.glsp.server.types.GLSPServerException.getOrThrow;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicOperationHandler;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.server.features.directediting.ApplyLabelEditOperation;
-import org.eclipse.glsp.server.model.GModelState;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
@@ -29,12 +29,16 @@ import com.eclipsesource.uml.glsp.modelserver.UmlModelServerAccess;
 import com.eclipsesource.uml.glsp.util.UmlConfig.Types;
 import com.eclipsesource.uml.glsp.util.UmlIDUtil;
 
-public class UmlLabelEditOperationHandler extends ModelServerAwareBasicOperationHandler<ApplyLabelEditOperation> {
+public class UmlLabelEditOperationHandler
+   extends EMSBasicOperationHandler<ApplyLabelEditOperation, UmlModelServerAccess> {
+
+   protected UmlModelState getUmlModelState() { return (UmlModelState) getEMSModelState(); }
 
    @Override
-   public void executeOperation(final ApplyLabelEditOperation editLabelOperation, final GModelState graphicalModelState,
-      final UmlModelServerAccess modelAccess) throws Exception {
-      UmlModelState modelState = UmlModelState.getModelState(graphicalModelState);
+   public void executeOperation(final ApplyLabelEditOperation editLabelOperation,
+      final UmlModelServerAccess modelAccess) {
+
+      UmlModelState modelState = getUmlModelState();
       UmlModelIndex modelIndex = modelState.getIndex();
 
       String inputText = editLabelOperation.getText().trim();

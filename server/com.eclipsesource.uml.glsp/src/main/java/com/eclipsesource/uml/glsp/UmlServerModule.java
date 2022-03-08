@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -10,15 +10,13 @@
  ********************************************************************************/
 package com.eclipsesource.uml.glsp;
 
-import java.util.Date;
+import org.eclipse.glsp.server.di.ServerModule;
+import org.eclipse.glsp.server.protocol.GLSPServer;
 
-public class UmlGLSPServerInitializeOptions {
+public class UmlServerModule extends ServerModule {
 
-   private Date timestamp;
-   private String modelServerURL;
-
-   public Date getTimestamp() { return timestamp; }
-
-   public String getModelServerURL() { return modelServerURL; }
-
+   @Override
+   protected Class<? extends GLSPServer> bindGLSPServer() {
+      return UmlGLSPServer.class;
+   }
 }

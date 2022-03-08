@@ -15,18 +15,18 @@ import org.eclipse.glsp.graph.GGraph;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.glsp.graph.GModelRoot;
 import org.eclipse.glsp.graph.builder.impl.GGraphBuilder;
-import org.eclipse.glsp.server.protocol.GLSPServerException;
+import org.eclipse.glsp.server.types.GLSPServerException;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
 
-public abstract class GModelFactory extends AbstractGModelFactory<EObject, GModelElement> {
+public abstract class DiagramFactory extends AbstractGModelFactory<EObject, GModelElement> {
 
    protected final ClassifierNodeFactory classifierNodeFactory;
    protected final LabelFactory labelFactory;
    protected final RelationshipEdgeFactory relationshipEdgeFactory;
 
-   public GModelFactory(final UmlModelState modelState) {
+   public DiagramFactory(final UmlModelState modelState) {
       super(modelState);
       labelFactory = new LabelFactory(modelState);
       relationshipEdgeFactory = new RelationshipEdgeFactory(modelState);
@@ -43,7 +43,7 @@ public abstract class GModelFactory extends AbstractGModelFactory<EObject, GMode
    public abstract GGraph create(final Diagram umlDiagram);
 
    public GGraph create() {
-      return create(modelState.getUmlFacade().getDiagram());
+      return create(modelState.getNotationModel());
    }
 
    public static GLSPServerException createFailed(final EObject semanticElement) {
@@ -58,10 +58,10 @@ public abstract class GModelFactory extends AbstractGModelFactory<EObject, GMode
          graph.getChildren().clear();
          return graph;
       }
-      return GModelFactory.createRoot(modelState);
+      return createRoot(modelState);
    }
 
-   public static GGraph createRoot(final UmlModelState modelState) {
+   public GGraph createRoot(final UmlModelState modelState) {
       GGraph graph = new GGraphBuilder().build();
       modelState.setRoot(graph);
       return graph;

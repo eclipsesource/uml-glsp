@@ -8,14 +8,21 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-package com.eclipsesource.uml.glsp.layout;
+package com.eclipsesource.uml.glsp.gmodel;
 
-import org.eclipse.glsp.server.layout.ServerLayoutConfiguration;
-import org.eclipse.glsp.server.layout.ServerLayoutKind;
+import com.eclipsesource.uml.glsp.model.UmlModelState;
+import com.eclipsesource.uml.modelserver.unotation.Representation;
 
-public class UmlServerLayoutConfiguration implements ServerLayoutConfiguration {
+public class DiagramFactoryProvider {
 
-   @Override
-   public ServerLayoutKind getLayoutKind() { return ServerLayoutKind.MANUAL; }
+   public static DiagramFactory get(final UmlModelState modelState) {
+      Representation diagramType = modelState.getNotationModel().getDiagramType();
+      switch (diagramType) {
+         case CLASS: {
+            return new UmlClassDiagramModelFactory(modelState);
+         }
+      }
+      return null;
+   }
 
 }

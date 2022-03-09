@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -58,15 +58,18 @@ public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
       mappings.put(Types.LABEL_TEXT, GraphPackage.Literals.GLABEL);
       mappings.put(Types.LABEL_EDGE_NAME, GraphPackage.Literals.GLABEL);
       mappings.put(Types.LABEL_EDGE_MULTIPLICITY, GraphPackage.Literals.GLABEL);
-      mappings.put(Types.COMP, GraphPackage.Literals.GCOMPARTMENT);
-      mappings.put(Types.COMP_HEADER, GraphPackage.Literals.GCOMPARTMENT);
-      mappings.put(Types.LABEL_ICON, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.COMPARTMENT, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.COMPARTMENT_HEADER, GraphPackage.Literals.GCOMPARTMENT);
 
       // UML Class
       mappings.put(Types.ICON_CLASS, GraphPackage.Literals.GCOMPARTMENT);
       mappings.put(Types.CLASS, GraphPackage.Literals.GNODE);
       // UML Property
-      mappings.put(Types.PROPERTY, GraphPackage.Literals.GLABEL);
+      mappings.put(Types.PROPERTY, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.ICON_PROPERTY, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.LABEL_PROPERTY_NAME, GraphPackage.Literals.GLABEL);
+      mappings.put(Types.LABEL_PROPERTY_TYPE, GraphPackage.Literals.GLABEL);
+      mappings.put(Types.LABEL_PROPERTY_MULTIPLICITY, GraphPackage.Literals.GLABEL);
       // UML Associations
       mappings.put(Types.ASSOCIATION, GraphPackage.Literals.GEDGE);
       return mappings;

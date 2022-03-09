@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -12,7 +12,7 @@ import { injectable } from "inversify";
 import { VNode } from "snabbdom";
 import { IVNodePostprocessor, SModelElement, svg } from "sprotty";
 
-import { SLabelNode } from "./model";
+import { IconLabelCompartment } from "./model";
 
 /* eslint-disable react/react-in-jsx-scope */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,22 +23,24 @@ const JSX = { createElement: svg };
 // All described possible solutions did not work in our case.
 
 /**
- * A NodeDecorator to install visual feedback on selected NodeLabels
+ * A NodeDecorator to install visual feedback on selected Compartments that hold icons and editable labels
  */
 @injectable()
-export class LabelSelectionFeedback implements IVNodePostprocessor {
+export class IconLabelCompartmentSelectionFeedback implements IVNodePostprocessor {
     decorate(vnode: VNode, element: SModelElement): VNode {
-        if (element instanceof SLabelNode && element.selected) {
-            const vPadding = 1;
-            const hPadding = 5;
+        if (element instanceof IconLabelCompartment && (element.hoverFeedback || element.selected)) {
+            const vPadding = -1;
+            const hPadding = 3;
 
             const feedback: any = (
                 <rect
                     x={-hPadding}
-                    y={-element.bounds.height / 2 - vPadding}
-                    width={element.bounds.width + 2 * hPadding}
-                    height={element.bounds.height + 2 * vPadding}
+                    y={-vPadding}
+                    width={element.bounds.width + hPadding}
+                    height={element.bounds.height + vPadding}
                     class-selection-feedback={true}
+                    class-hover={element.hoverFeedback}
+                    class-selected={element.selected}
                 />
             );
             if (!vnode.children) {

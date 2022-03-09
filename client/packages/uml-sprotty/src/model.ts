@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -8,22 +8,24 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { SChildElement } from "@eclipse-glsp/client";
+import { SChildElement, selectFeature } from "@eclipse-glsp/client";
 import {
     boundsFeature,
+    Deletable,
     deletableFeature,
     EditableLabel,
     editLabelFeature,
     fadeFeature,
+    Hoverable,
     hoverFeedbackFeature,
     isEditableLabel,
     layoutableChildFeature,
     layoutContainerFeature,
     Nameable,
     nameFeature,
-    popupFeature,
     RectangularNode,
-    selectFeature,
+    SCompartment,
+    Selectable,
     SLabel,
     SShapeElement,
     WithEditableLabel,
@@ -54,6 +56,15 @@ export class LabeledNode extends RectangularNode implements WithEditableLabel, N
     }
 }
 
+export class IconLabelCompartment extends SCompartment implements Selectable, Deletable, Hoverable {
+    selected = false;
+    hoverFeedback = false;
+
+    hasFeature(feature: symbol): boolean {
+        return super.hasFeature(feature) || feature === selectFeature || feature === deletableFeature || feature === hoverFeedbackFeature;
+    }
+}
+
 export class SEditableLabel extends SLabel implements EditableLabel {
     hasFeature(feature: symbol): boolean {
         return feature === editLabelFeature || super.hasFeature(feature);
@@ -72,16 +83,6 @@ export class IconClass extends Icon {
     iconImageName = "Class.svg";
 }
 
-export class SLabelNode extends SLabel implements EditableLabel {
-    hoverFeedback = false;
-    imageName: string;
-
-    hasFeature(feature: symbol): boolean {
-        return (feature === selectFeature || feature === editLabelFeature || feature === popupFeature || feature === deletableFeature ||
-            feature === hoverFeedbackFeature || super.hasFeature(feature));
-    }
-}
-
-export class SLabelNodeProperty extends SLabelNode {
-    imageName = "Property.svg";
+export class IconProperty extends Icon {
+    iconImageName = "Property.svg";
 }

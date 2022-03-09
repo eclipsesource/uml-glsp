@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -36,11 +36,11 @@ import com.eclipsesource.uml.modelserver.unotation.Shape;
 
 public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNode> {
 
-   private final LabelFactory labelFactory;
+   private final CompartmentLabelFactory compartmentLabelFactory;
 
-   public ClassifierNodeFactory(final UmlModelState modelState, final LabelFactory labelFactory) {
+   public ClassifierNodeFactory(final UmlModelState modelState, final CompartmentLabelFactory compartmentLabelFactory) {
       super(modelState);
-      this.labelFactory = labelFactory;
+      this.compartmentLabelFactory = compartmentLabelFactory;
    }
 
    @Override
@@ -79,7 +79,7 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
    }
 
    protected GCompartment buildClassHeader(final Class umlClass) {
-      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMP_HEADER)
+      GCompartmentBuilder classHeaderBuilder = new GCompartmentBuilder(Types.COMPARTMENT_HEADER)
          .layout(GConstants.Layout.HBOX)
          .id(UmlIDUtil.createHeaderId(toId(umlClass)));
 
@@ -97,18 +97,19 @@ public class ClassifierNodeFactory extends AbstractGModelFactory<Classifier, GNo
 
    protected GCompartment buildClassPropertiesCompartment(final Collection<? extends Property> properties,
       final Classifier parent) {
-      GCompartmentBuilder classPropertiesBuilder = new GCompartmentBuilder(Types.COMP)
-         .id(UmlIDUtil.createChildCompartmentId(toId(parent))).layout(GConstants.Layout.VBOX);
+      GCompartmentBuilder classPropertiesBuilder = new GCompartmentBuilder(Types.COMPARTMENT)
+         .id(UmlIDUtil.createChildCompartmentId(toId(parent)))
+         .layout(GConstants.Layout.VBOX);
 
       GLayoutOptions layoutOptions = new GLayoutOptions()
          .hAlign(GConstants.HAlign.LEFT)
          .resizeContainer(true);
       classPropertiesBuilder.layoutOptions(layoutOptions);
 
-      List<GModelElement> propertiesLabels = properties.stream()
-         .map(labelFactory::createPropertyLabel)
+      List<GModelElement> propertiesElements = properties.stream()
+         .map(compartmentLabelFactory::createPropertyLabel)
          .collect(Collectors.toList());
-      classPropertiesBuilder.addAll(propertiesLabels);
+      classPropertiesBuilder.addAll(propertiesElements);
 
       return classPropertiesBuilder.build();
    }

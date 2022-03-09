@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -49,7 +49,9 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCo
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
-import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyBoundsCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyTypeCommandContribution;
 import com.eclipsesource.uml.modelserver.unotation.Edge;
 import com.eclipsesource.uml.modelserver.unotation.Shape;
 import com.google.common.base.Preconditions;
@@ -146,11 +148,27 @@ public class UmlModelServerAccess extends EMSModelServerAccess {
       return this.edit(removePropertyCommand);
    }
 
-   public CompletableFuture<Response<Boolean>> setProperty(final UmlModelState modelState,
-      final Property propertyToRename, final String newName, final String newType, final String newBounds) {
+   public CompletableFuture<Response<Boolean>> setPropertyName(final UmlModelState modelState,
+      final Property propertyToRename, final String newName) {
 
-      CCommand setPropertyNameCommand = SetPropertyCommandContribution
-         .create(getSemanticUriFragment(propertyToRename), newName, newType, newBounds);
+      CCommand setPropertyNameCommand = SetPropertyNameCommandContribution
+         .create(getSemanticUriFragment(propertyToRename), newName);
+      return this.edit(setPropertyNameCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setPropertyType(final UmlModelState modelState,
+      final Property propertyToRename, final String newType) {
+
+      CCommand setPropertyNameCommand = SetPropertyTypeCommandContribution
+         .create(getSemanticUriFragment(propertyToRename), newType);
+      return this.edit(setPropertyNameCommand);
+   }
+
+   public CompletableFuture<Response<Boolean>> setPropertyBounds(final UmlModelState modelState,
+      final Property propertyToRename, final String newBounds) {
+
+      CCommand setPropertyNameCommand = SetPropertyBoundsCommandContribution
+         .create(getSemanticUriFragment(propertyToRename), newBounds);
       return this.edit(setPropertyNameCommand);
    }
 

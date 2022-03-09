@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -23,12 +23,12 @@ import com.eclipsesource.uml.modelserver.unotation.Diagram;
 public abstract class DiagramFactory extends AbstractGModelFactory<EObject, GModelElement> {
 
    protected final ClassifierNodeFactory classifierNodeFactory;
-   protected final LabelFactory labelFactory;
+   protected final CompartmentLabelFactory labelFactory;
    protected final RelationshipEdgeFactory relationshipEdgeFactory;
 
    public DiagramFactory(final UmlModelState modelState) {
       super(modelState);
-      labelFactory = new LabelFactory(modelState);
+      labelFactory = new CompartmentLabelFactory(modelState);
       relationshipEdgeFactory = new RelationshipEdgeFactory(modelState);
       classifierNodeFactory = new ClassifierNodeFactory(modelState, labelFactory);
       getOrCreateRoot();

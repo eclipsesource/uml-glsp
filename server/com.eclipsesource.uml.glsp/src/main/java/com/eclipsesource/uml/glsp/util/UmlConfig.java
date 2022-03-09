@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -16,14 +16,18 @@ public final class UmlConfig {
 
       public static final String LABEL_NAME = "label:name";
       public static final String LABEL_TEXT = "label:text";
+      public static final String LABEL_COMP = "comp:label";
       public static final String LABEL_EDGE_NAME = "label:edge-name";
       public static final String LABEL_EDGE_MULTIPLICITY = "label:edge-multiplicity";
-      public static final String COMP = "comp:comp";
-      public static final String COMP_HEADER = "comp:header";
-      public static final String LABEL_ICON = "label:icon";
+      public static final String COMPARTMENT = "comp";
+      public static final String COMPARTMENT_HEADER = "comp:header";
       public static final String ICON_CLASS = "icon:class";
       public static final String CLASS = "node:class";
-      public static final String PROPERTY = "node:property";
+      public static final String PROPERTY = "comp:property";
+      public static final String ICON_PROPERTY = "icon:property";
+      public static final String LABEL_PROPERTY_NAME = "label:property:name";
+      public static final String LABEL_PROPERTY_TYPE = "label:property:type";
+      public static final String LABEL_PROPERTY_MULTIPLICITY = "label:property:multiplicity";
       public static final String ASSOCIATION = "edge:association";
 
       private Types() {}

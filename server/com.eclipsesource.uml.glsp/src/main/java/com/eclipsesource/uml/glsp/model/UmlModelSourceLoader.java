@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emfcloud.modelserver.client.ModelServerClient;
+import org.eclipse.emfcloud.modelserver.client.v1.ModelServerClientV1;
 import org.eclipse.emfcloud.modelserver.glsp.model.EMSModelSourceLoader;
 import org.eclipse.glsp.server.features.core.model.RequestModelAction;
 import org.eclipse.glsp.server.model.GModelState;
@@ -26,7 +26,7 @@ import com.eclipsesource.uml.modelserver.UmlModelServerClient;
 
 public class UmlModelSourceLoader extends EMSModelSourceLoader {
 
-   private static Logger LOGGER = Logger.getLogger(EMSModelSourceLoader.class.getSimpleName());
+   private static Logger LOGGER = Logger.getLogger(EMSModelSourceLoader.class);
 
    @Override
    public void loadSourceModel(final RequestModelAction action) {
@@ -35,7 +35,7 @@ public class UmlModelSourceLoader extends EMSModelSourceLoader {
          LOGGER.error("No source URI given to load source models");
          return;
       }
-      Optional<ModelServerClient> modelServerClient = modelServerClientProvider.get();
+      Optional<ModelServerClientV1> modelServerClient = modelServerClientProvider.get();
       if (modelServerClient.isEmpty()) {
          LOGGER.error("Connection to modelserver could not be initialized");
          return;
@@ -63,7 +63,7 @@ public class UmlModelSourceLoader extends EMSModelSourceLoader {
 
    @Override
    public UmlModelServerAccess createModelServerAccess(final String sourceURI,
-      final ModelServerClient modelServerClient) {
+      final ModelServerClientV1 modelServerClient) {
       if (!(modelServerClient instanceof UmlModelServerClient)) {
          LOGGER.error("ModelServerClient is not an instance of UmlModelServerClient!");
       }

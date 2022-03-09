@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,9 +11,6 @@
 package com.eclipsesource.uml.glsp.operations;
 
 import static org.eclipse.glsp.server.types.GLSPServerException.getOrThrow;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.emfcloud.modelserver.glsp.operations.handlers.EMSBasicOperationHandler;
 import org.eclipse.glsp.graph.GModelElement;
@@ -62,18 +59,43 @@ public class UmlLabelEditOperationHandler
             }
             break;
 
-         case Types.PROPERTY:
-            Property classProperty = getOrThrow(modelIndex.getSemantic(graphicalElementId),
+         case Types.LABEL_PROPERTY_NAME:
+            containerElementId = UmlIDUtil.getElementIdFromPropertyLabelName(graphicalElementId);
+            Property property = getOrThrow(modelIndex.getSemantic(containerElementId),
                Property.class, "No valid container with id " + graphicalElementId + " found");
 
-            String propertyName = getNameFromInput(inputText);
-            String propertyType = getTypeFromInput(inputText);
-            String propertyBounds = getBoundsFromInput(inputText);
-
-            modelAccess.setProperty(modelState, classProperty, propertyName, propertyType, propertyBounds)
+            modelAccess.setPropertyName(modelState, property, inputText)
                .thenAccept(response -> {
                   if (!response.body()) {
-                     throw new GLSPServerException("Could not change Property to: " + inputText);
+                     throw new GLSPServerException("Could not change Property type to: " + inputText);
+                  }
+               });
+
+            break;
+
+         case Types.LABEL_PROPERTY_TYPE:
+            containerElementId = UmlIDUtil.getElementIdFromPropertyLabelType(graphicalElementId);
+            property = getOrThrow(modelIndex.getSemantic(containerElementId),
+               Property.class, "No valid container with id " + graphicalElementId + " found");
+
+            modelAccess.setPropertyType(modelState, property, inputText)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change Property type to: " + inputText);
+                  }
+               });
+
+            break;
+
+         case Types.LABEL_PROPERTY_MULTIPLICITY:
+            containerElementId = UmlIDUtil.getElementIdFromPropertyLabelMultiplicity(graphicalElementId);
+            property = getOrThrow(modelIndex.getSemantic(containerElementId),
+               Property.class, "No valid container with id " + graphicalElementId + " found");
+
+            modelAccess.setPropertyBounds(modelState, property, inputText)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change Property bounds to: " + inputText);
                   }
                });
 
@@ -97,10 +119,10 @@ public class UmlLabelEditOperationHandler
             associationEnd = getOrThrow(modelIndex.getSemantic(containerElementId),
                Property.class, "No valid container with id " + graphicalElementId + " found");
 
-            modelAccess.setAssociationEndMultiplicity(modelState, associationEnd, getBoundsFromInput(inputText))
+            modelAccess.setAssociationEndMultiplicity(modelState, associationEnd, inputText)
                .thenAccept(response -> {
                   if (!response.body()) {
-                     throw new GLSPServerException("Could not change Association End Name to: " + inputText);
+                     throw new GLSPServerException("Could not change Association End Multiplicity to: " + inputText);
                   }
                });
             break;
@@ -110,43 +132,5 @@ public class UmlLabelEditOperationHandler
 
    @Override
    public String getLabel() { return "Apply label"; }
-
-   private String typeRegex() {
-      return "\\:";
-   }
-
-   private String multiplicityRegex() {
-      return "\\[(.*?)\\]";
-   }
-
-   private String getNameFromInput(final String inputText) {
-      String name = inputText;
-      Pattern pattern = Pattern.compile(typeRegex());
-      Matcher matcher = pattern.matcher(inputText);
-      if (matcher.find()) {
-         name = inputText.split(typeRegex())[0];
-      }
-      return name.replaceAll(multiplicityRegex(), "").trim();
-   }
-
-   private String getTypeFromInput(final String inputText) {
-      String type = "";
-      Pattern pattern = Pattern.compile(typeRegex());
-      Matcher matcher = pattern.matcher(inputText);
-      if (matcher.find()) {
-         type = inputText.split(typeRegex())[1];
-      }
-      return type.replaceAll(multiplicityRegex(), "").trim();
-   }
-
-   private String getBoundsFromInput(final String inputText) {
-      String bounds = "";
-      Pattern pattern = Pattern.compile(multiplicityRegex());
-      Matcher matcher = pattern.matcher(inputText);
-      if (matcher.find()) {
-         bounds = matcher.group(1);
-      }
-      return bounds.trim();
-   }
 
 }

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,7 +31,9 @@ import com.eclipsesource.uml.modelserver.commands.contributions.RemovePropertyCo
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndMultiplicityCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetAssociationEndNameCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.SetClassNameCommandContribution;
-import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyBoundsCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyNameCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.SetPropertyTypeCommandContribution;
 
 public class UmlModelServerModule extends DefaultModelServerModule {
 
@@ -57,7 +59,9 @@ public class UmlModelServerModule extends DefaultModelServerModule {
       // UML Property
       binding.put(AddPropertyCommandContribution.TYPE, AddPropertyCommandContribution.class);
       binding.put(RemovePropertyCommandContribution.TYPE, RemovePropertyCommandContribution.class);
-      binding.put(SetPropertyCommandContribution.TYPE, SetPropertyCommandContribution.class);
+      binding.put(SetPropertyNameCommandContribution.TYPE, SetPropertyNameCommandContribution.class);
+      binding.put(SetPropertyTypeCommandContribution.TYPE, SetPropertyTypeCommandContribution.class);
+      binding.put(SetPropertyBoundsCommandContribution.TYPE, SetPropertyBoundsCommandContribution.class);
       // UML Association
       binding.put(AddAssociationCommandContribution.TYPE, AddAssociationCommandContribution.class);
       binding.put(RemoveAssociationCommandContribution.TYPE, RemoveAssociationCommandContribution.class);

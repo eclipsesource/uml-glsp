@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -8,18 +8,22 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR MIT
  ********************************************************************************/
-import { BaseTypes } from "./base-types";
+import { DefaultTypes } from "@eclipse-glsp/protocol";
 
 export namespace UmlTypes {
 
-    export const LABEL_NAME = `${BaseTypes.LABEL}:name`;
-    export const LABEL_TEXT = `${BaseTypes.LABEL}:text`;
-    export const LABEL_EDGE_NAME = `${BaseTypes.LABEL}:edge-name`;
-    export const LABEL_EDGE_MULTIPLICITY = `${BaseTypes.LABEL}:edge-multiplicity`;
-    export const ICON_CLASS = `${BaseTypes.ICON}:class`;
-    export const LABEL_ICON = `${BaseTypes.LABEL}:${BaseTypes.ICON}`;
-    export const CLASS = `${BaseTypes.NODE}:class`;
-    export const ASSOCIATION = `${BaseTypes.EDGE}:association`;
-    export const PROPERTY = `${BaseTypes.NODE}:property`;
+    export const ICON = "icon";
+    export const LABEL_NAME = `${DefaultTypes.LABEL}:name`;
+    export const LABEL_TEXT = `${DefaultTypes.LABEL}:text`;
+    export const LABEL_EDGE_NAME = `${DefaultTypes.LABEL}:edge-name`;
+    export const LABEL_EDGE_MULTIPLICITY = `${DefaultTypes.LABEL}:edge-multiplicity`;
+    export const ICON_CLASS = `${ICON}:class`;
+    export const CLASS = `${DefaultTypes.NODE}:class`;
+    export const ASSOCIATION = `${DefaultTypes.EDGE}:association`;
+    export const PROPERTY = `${DefaultTypes.COMPARTMENT}:property`;
+    export const ICON_PROPERTY = `${ICON}:property`;
+    export const LABEL_PROPERTY_NAME = `${DefaultTypes.LABEL}:property:name`;
+    export const LABEL_PROPERTY_TYPE = `${DefaultTypes.LABEL}:property:type`;
+    export const LABEL_PROPERTY_MULTIPLICITY = `${DefaultTypes.LABEL}:property:multiplicity`;
 
 }

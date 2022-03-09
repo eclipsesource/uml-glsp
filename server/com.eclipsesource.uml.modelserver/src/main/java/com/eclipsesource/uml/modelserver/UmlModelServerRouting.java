@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -11,10 +11,13 @@
 package com.eclipsesource.uml.modelserver;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
-import static io.javalin.apibuilder.ApiBuilder.path;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextRequest.getParam;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.encodingError;
+import static org.eclipse.emfcloud.modelserver.emf.common.util.ContextResponse.missingParameter;
+
+import java.util.Optional;
 
 import org.eclipse.emfcloud.modelserver.common.ModelServerPathParametersV1;
-import org.eclipse.emfcloud.modelserver.common.ModelServerPathsV1;
 import org.eclipse.emfcloud.modelserver.common.codecs.EncodingException;
 import org.eclipse.emfcloud.modelserver.emf.common.JsonResponse;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelController;
@@ -32,50 +35,48 @@ import io.javalin.http.Context;
 
 public class UmlModelServerRouting extends ModelServerRoutingV1 {
 
+   protected final ModelResourceManager resourceManager;
+
    @Inject
    public UmlModelServerRouting(final Javalin javalin, final ModelResourceManager resourceManager,
       final ModelController modelController, final SchemaController schemaController,
       final ServerController serverController, final SessionController sessionController) {
       super(javalin, resourceManager, modelController, schemaController, serverController, sessionController);
+      this.resourceManager = resourceManager;
    }
 
    protected void getUmlTypes(final Context ctx) {
-      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresent(
-         param -> {
+      Optional<String> modelUri = getParam(ctx.queryParamMap(), ModelServerPathParametersV1.MODEL_URI);
+      modelUri.ifPresentOrElse(
+         uri -> {
             try {
                ctx.json(JsonResponse
-                  .success(JsonCodec.encode(((UmlModelResourceManager) resourceManager).getUmlTypes(param))));
+                  .success(JsonCodec.encode(((UmlModelResourceManager) resourceManager).getUmlTypes(uri))));
             } catch (EncodingException e) {
-               // FIXME add once modelserver dependency gets updated
-               // encodingError(ctx, e);
+               encodingError(ctx, e);
             }
-         });
-      // FIXME add once modelserver dependency gets updated
-      // () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+         },
+         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
    }
 
    protected void createUmlModel(final Context ctx) {
-      getResolvedFileUri(ctx, ModelServerPathParametersV1.MODEL_URI).ifPresent(
-         param -> {
-            // FIXME use getParam() modelserver dependency gets updated
-            String typeParam = "";
-            if (ctx.queryParamMap().containsKey(UmlModelServerPathsParameters.DIAGRAM_TYPE)) {
-               typeParam = ctx.queryParamMap().get(UmlModelServerPathsParameters.DIAGRAM_TYPE).get(0);
-            }
-            boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(param, typeParam);
-            ctx.json(result ? JsonResponse.success() : JsonResponse.error());
-         });
-      // FIXME add once modelserver dependency gets updated
-      // () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
+      Optional<String> modelUri = getParam(ctx.queryParamMap(), ModelServerPathParametersV1.MODEL_URI)
+         .map(resourceManager::adaptModelUri);
+      modelUri.ifPresentOrElse(
+         uri -> {
+            getParam(ctx, UmlModelServerPathsParameters.DIAGRAM_TYPE).ifPresentOrElse(
+               typeParam -> {
+                  boolean result = ((UmlModelResourceManager) resourceManager).addUmlResources(uri, typeParam);
+                  ctx.json(result ? JsonResponse.success() : JsonResponse.error());
+               },
+               () -> missingParameter(ctx, UmlModelServerPathsParameters.DIAGRAM_TYPE));
+         },
+         () -> missingParameter(ctx, ModelServerPathParametersV1.MODEL_URI));
    }
 
    @Override
    public void bindRoutes() {
-      javalin.routes(this::endpoints);
-   }
-
-   private void endpoints() {
-      path(ModelServerPathsV1.BASE_PATH, this::apiEndpoints);
+      bindRoutes(this::apiEndpoints);
    }
 
    private void apiEndpoints() {

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -10,9 +10,9 @@
  ********************************************************************************/
 import { injectable } from "inversify";
 import { VNode } from "snabbdom";
-import { getSubType, IView, RectangularNodeView, RenderingContext, setAttr, SLabelView, svg } from "sprotty/lib";
+import { IView, RectangularNodeView, RenderingContext, svg } from "sprotty/lib";
 
-import { Icon, LabeledNode, SLabelNode } from "./model";
+import { Icon, LabeledNode } from "./model";
 
 /* eslint-disable react/react-in-jsx-scope */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,7 +27,7 @@ export class ClassNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
         const rhombStr = "M 0,38  L " + node.bounds.width + ",38";
 
-        const classNode: any =(
+        const classNode: any = (
             <g class-node={true} class-selected={node.selected} class-mouseover={node.hoverFeedback}>
                 <defs>
                     <filter id="dropShadow">
@@ -58,32 +58,5 @@ export class IconView implements IView {
                 {context.renderChildren(element)}
             </g>);
         return iconView;
-    }
-}
-
-@injectable()
-export class LabelNodeView extends SLabelView {
-    render(labelNode: Readonly<SLabelNode>, context: RenderingContext): VNode {
-        let image;
-        if (labelNode.imageName) {
-            image = require("../images/" + labelNode.imageName);
-        }
-
-        const vnode: any = (
-            <g
-                class-selected={labelNode.selected}
-                class-mouseover={labelNode.hoverFeedback}
-                class-sprotty-label-node={true}
-            >
-                {!!image && <image class-sprotty-icon={true} href={image} y={-8} width={22} height={15}></image>}
-                <text class-sprotty-label={true} x={image ? 30 : 0}>{labelNode.text}</text>
-            </g>
-        );
-
-        const subType = getSubType(labelNode);
-        if (subType) {
-            setAttr(vnode, "class", subType);
-        }
-        return vnode;
     }
 }

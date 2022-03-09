@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -18,17 +18,16 @@ public final class UmlLabelUtil {
 
    public static String getTypeName(final Property property) {
       if (property.getType() != null) {
-         String typeName = property.getType().getName();
-         return String.format(" : %s", typeName);
+         return property.getType().getName();
       }
       return "";
    }
 
    public static String getMultiplicity(final Property property) {
       if (property.getLower() == property.getUpper()) {
-         return String.format(" [%s]", property.getUpper() == -1 ? "*" : property.getUpper());
+         return String.format("%s", property.getUpper() == -1 ? "*" : property.getUpper());
       }
-      return String.format(" [%s..%s]", property.getLower(), property.getUpper() == -1 ? "*" : property.getUpper());
+      return String.format("%s..%s", property.getLower(), property.getUpper() == -1 ? "*" : property.getUpper());
    }
 
 }

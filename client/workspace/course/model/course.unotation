@@ -15,4 +15,8 @@
     <bendPoints x="675.3984375" y="106.0"/>
     <bendPoints x="675.3984375" y="370.0"/>
   </elements>
+  <elements xsi:type="unotation:Shape">
+    <semanticElement uri="_0t8HUIJtEeuvq6_mZuh-Qw"/>
+    <position x="262.0" y="359.0"/>
+  </elements>
 </unotation:Diagram>

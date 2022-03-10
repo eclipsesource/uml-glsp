@@ -29,6 +29,8 @@ public final class UmlConfig {
       public static final String LABEL_PROPERTY_TYPE = "label:property:type";
       public static final String LABEL_PROPERTY_MULTIPLICITY = "label:property:multiplicity";
       public static final String ASSOCIATION = "edge:association";
+      public static final String ICON_ENUMERATION = "icon:enumeration";
+      public static final String ENUMERATION = "node:enumeration";
 
       private Types() {}
    }

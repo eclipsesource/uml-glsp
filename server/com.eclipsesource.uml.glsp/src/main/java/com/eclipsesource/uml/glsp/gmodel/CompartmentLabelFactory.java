@@ -16,6 +16,7 @@ import org.eclipse.glsp.graph.builder.impl.GCompartmentBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLabelBuilder;
 import org.eclipse.glsp.graph.builder.impl.GLayoutOptions;
 import org.eclipse.glsp.graph.util.GConstants;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 
@@ -34,6 +35,8 @@ public class CompartmentLabelFactory extends AbstractGModelFactory<NamedElement,
    public GCompartment create(final NamedElement namedElement) {
       if (namedElement instanceof Property) {
          return createPropertyLabel((Property) namedElement);
+      } else if (namedElement instanceof EnumerationLiteral) {
+         return createEnumerationLiteralLabel((EnumerationLiteral) namedElement);
       }
       return null;
    }
@@ -89,6 +92,31 @@ public class CompartmentLabelFactory extends AbstractGModelFactory<NamedElement,
       }
 
       return propertyBuilder.build();
+   }
+
+   protected GCompartment createEnumerationLiteralLabel(final EnumerationLiteral property) {
+      GCompartmentBuilder enumLiteralBuilder = new GCompartmentBuilder(Types.ENUMERATION_LITERAL)
+         .layout(GConstants.Layout.HBOX)
+         .id(UmlIDUtil.createEnumLiteralId(toId(property)));
+
+      // enumeration literal icon
+      GCompartment enumLiteralIcon = new GCompartmentBuilder(Types.ICON_ENUMERATION_LITERAL)
+         .id(UmlIDUtil.createEnumLiteralIconId(toId(property))).build();
+      enumLiteralBuilder.add(enumLiteralIcon);
+
+      GLayoutOptions layoutOptions = new GLayoutOptions()
+         .hGap(3)
+         .resizeContainer(true);
+      enumLiteralBuilder.layoutOptions(layoutOptions);
+
+      // enumeration literal icon
+      GLabel propertyNameLabel = new GLabelBuilder(Types.LABEL_ENUMERATION_LITERAL)
+         .id(UmlIDUtil.createEnumLiteralLabelId(toId(property)))
+         .text(property.getName())
+         .build();
+      enumLiteralBuilder.add(propertyNameLabel);
+
+      return enumLiteralBuilder.build();
    }
 
 }

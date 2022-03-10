@@ -48,6 +48,8 @@ export class ClassNodeView extends RectangularNodeView {
 @injectable()
 export class EnumerationNodeView extends RectangularNodeView {
     render(node: LabeledNode, context: RenderingContext): VNode {
+        const rhombStr = "M 0,68  L " + node.bounds.width + ",68";
+
         if (node.children[0].children[0] instanceof SLabel) {
             const enumTypeLabel = node.children[0].children[0] as SLabel;
             const enumText = enumTypeLabel.text;
@@ -63,6 +65,8 @@ export class EnumerationNodeView extends RectangularNodeView {
 
                 <rect x={0} y={0} rx={2} ry={2} width={Math.max(0, node.bounds.width)} height={Math.max(0, node.bounds.height)} />
                 {context.renderChildren(node)}
+                {(node.children[1] && node.children[1].children.length > 0) ?
+                    <path class-uml-comp-separator={true} d={rhombStr}></path> : ""}
             </g>);
         return enumNode;
     }

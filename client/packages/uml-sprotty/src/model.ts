@@ -90,3 +90,7 @@ export class IconProperty extends Icon {
 export class IconEnumeration extends Icon {
     iconImageName = "Enumeration.svg";
 }
+
+export class IconEnumerationLiteral extends Icon {
+    iconImageName = "EnumerationLiteral.svg";
+}

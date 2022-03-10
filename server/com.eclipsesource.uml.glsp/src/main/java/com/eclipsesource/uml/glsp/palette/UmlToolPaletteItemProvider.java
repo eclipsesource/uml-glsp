@@ -49,8 +49,10 @@ public class UmlToolPaletteItemProvider implements ToolPaletteItemProvider {
 
    private PaletteItem features() {
       PaletteItem createProperty = node(Types.PROPERTY, "Property", "umlproperty");
+      PaletteItem createEnumerationliteral = node(Types.LABEL_ENUMERATION_LITERAL, "Enumeration Literal",
+         "umlenumerationliteral");
 
-      List<PaletteItem> features = Lists.newArrayList(createProperty);
+      List<PaletteItem> features = Lists.newArrayList(createProperty, createEnumerationliteral);
 
       return PaletteItem.createPaletteGroup("uml.feature", "Feature", features, "symbol-property");
    }

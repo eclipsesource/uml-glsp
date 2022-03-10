@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,6 +19,7 @@ import org.eclipse.glsp.server.operations.CreateNodeOperation;
 import org.eclipse.glsp.server.operations.Operation;
 import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.PackageableElement;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
@@ -32,7 +33,7 @@ public class CreateClassifierChildNodeOperationHandler
       super(handledElementTypeIds);
    }
 
-   private static List<String> handledElementTypeIds = List.of(Types.PROPERTY);
+   private static List<String> handledElementTypeIds = List.of(Types.PROPERTY, Types.LABEL_ENUMERATION_LITERAL);
 
    @Override
    public boolean handles(final Operation execAction) {
@@ -60,6 +61,13 @@ public class CreateClassifierChildNodeOperationHandler
             .thenAccept(response -> {
                if (!response.body()) {
                   throw new GLSPServerException("Could not execute create operation on new Property node");
+               }
+            });
+      } else if (elementTypeId.equals(Types.LABEL_ENUMERATION_LITERAL) && container instanceof Enumeration) {
+         modelAccess.addEnumerationLiteral(UmlModelState.getModelState(modelState), (Enumeration) container)
+            .thenAccept(response -> {
+               if (!response.body()) {
+                  throw new GLSPServerException("Could not execute create operation on new EnumerationLiteral node");
                }
             });
       }

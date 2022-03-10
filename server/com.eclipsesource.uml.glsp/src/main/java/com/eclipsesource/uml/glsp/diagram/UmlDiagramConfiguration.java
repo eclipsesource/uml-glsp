@@ -48,7 +48,8 @@ public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
          new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS, Types.ENUMERATION)));
       hints.add(new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
-      hints.add(new ShapeTypeHint(Types.ENUMERATION, true, true, false, false));
+      hints.add(
+         new ShapeTypeHint(Types.ENUMERATION, true, true, false, false, List.of(Types.LABEL_ENUMERATION_LITERAL)));
       return hints;
    }
 
@@ -77,6 +78,10 @@ public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
       // UML Enumeration
       mappings.put(Types.ICON_ENUMERATION, GraphPackage.Literals.GCOMPARTMENT);
       mappings.put(Types.ENUMERATION, GraphPackage.Literals.GNODE);
+      // UML Enumeration Literal
+      mappings.put(Types.ENUMERATION_LITERAL, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.ICON_ENUMERATION_LITERAL, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.LABEL_ENUMERATION_LITERAL, GraphPackage.Literals.GLABEL);
       return mappings;
    }
 

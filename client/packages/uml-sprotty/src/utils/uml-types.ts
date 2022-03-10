@@ -27,5 +27,8 @@ export namespace UmlTypes {
     export const LABEL_PROPERTY_MULTIPLICITY = `${DefaultTypes.LABEL}:property:multiplicity`;
     export const ICON_ENUMERATION = `${ICON}:enumeration`;
     export const ENUMERATION = `${DefaultTypes.NODE}:enumeration`;
+    export const ENUMERATION_LITERAL = `${DefaultTypes.COMPARTMENT}:enumerationliteral`;
+    export const ICON_ENUMERATION_LITERAL = `${ICON}:enumerationliteral`;
+    export const LABEL_ENUMERATION_LITERAL = `${DefaultTypes.LABEL}:enumerationliteral`;
 
 }

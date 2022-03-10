@@ -35,7 +35,15 @@ import { EditLabelUI } from "sprotty/lib";
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { IconLabelCompartmentSelectionFeedback } from "./feedback";
-import { IconClass, IconEnumeration, IconLabelCompartment, IconProperty, LabeledNode, SEditableLabel } from "./model";
+import {
+    IconClass,
+    IconEnumeration,
+    IconEnumerationLiteral,
+    IconLabelCompartment,
+    IconProperty,
+    LabeledNode,
+    SEditableLabel
+} from "./model";
 import { UmlTypes } from "./utils";
 import { ClassNodeView, EnumerationNodeView, IconView } from "./views";
 
@@ -62,6 +70,9 @@ export default function createContainer(widgetId: string): Container {
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
         configureModelElement(context, UmlTypes.ICON_ENUMERATION, IconEnumeration, IconView);
         configureModelElement(context, UmlTypes.ENUMERATION, LabeledNode, EnumerationNodeView);
+        configureModelElement(context, UmlTypes.ENUMERATION_LITERAL, IconLabelCompartment, SCompartmentView);
+        configureModelElement(context, UmlTypes.ICON_ENUMERATION_LITERAL, IconEnumerationLiteral, IconView);
+        configureModelElement(context, UmlTypes.LABEL_ENUMERATION_LITERAL, SEditableLabel, SLabelView);
         configureViewerOptions(context, {
             needsClientLayout: true,
             baseDiv: widgetId

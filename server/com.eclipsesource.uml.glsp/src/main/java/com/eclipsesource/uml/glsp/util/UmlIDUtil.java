@@ -27,6 +27,9 @@ public final class UmlIDUtil {
    public static String PROPERTY_LABEL_TYPE_SUFFIX = "_property_label_type";
    public static String PROPERTY_LABEL_MULTIPLICITY_SUFFIX = "_property_label_multiplicity";
    public static String CHILD_COMPARTMENT_SUFFIX = "_childCompartment";
+   public static String ENUMLITERAL_SUFFIX = "_enumliteral";
+   public static String ENUMLITERAL_ICON_SUFFIX = "_enumliteral_icon";
+   public static String ENUMLITERAL_LABEL_SUFFIX = "_enumliteral_label";
 
    public static String createLabelNameId(final String containerId) {
       return containerId + LABEL_NAME_SUFFIX;
@@ -130,6 +133,30 @@ public final class UmlIDUtil {
 
    public static String getElementIdFromChildCompartment(final String childCompartmentId) {
       return childCompartmentId.replace(CHILD_COMPARTMENT_SUFFIX, "");
+   }
+
+   public static String createEnumLiteralId(final String containerId) {
+      return containerId + ENUMLITERAL_SUFFIX;
+   }
+
+   public static String getElementIdFromEnumLiteral(final String enumLiteralId) {
+      return enumLiteralId.replace(ENUMLITERAL_SUFFIX, "");
+   }
+
+   public static String createEnumLiteralIconId(final String containerId) {
+      return containerId + ENUMLITERAL_ICON_SUFFIX;
+   }
+
+   public static String getElementIdFromEnumLiteralIcon(final String enumLiteralIconId) {
+      return enumLiteralIconId.replace(ENUMLITERAL_ICON_SUFFIX, "");
+   }
+
+   public static String createEnumLiteralLabelId(final String containerId) {
+      return containerId + ENUMLITERAL_LABEL_SUFFIX;
+   }
+
+   public static String getElementIdFromEnumLiteralLabel(final String enumLiteralLabelId) {
+      return enumLiteralLabelId.replace(ENUMLITERAL_LABEL_SUFFIX, "");
    }
 
 }

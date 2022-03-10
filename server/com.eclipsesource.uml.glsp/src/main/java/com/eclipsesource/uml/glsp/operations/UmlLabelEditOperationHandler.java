@@ -18,6 +18,7 @@ import org.eclipse.glsp.server.features.directediting.ApplyLabelEditOperation;
 import org.eclipse.glsp.server.types.GLSPServerException;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 
@@ -104,6 +105,20 @@ public class UmlLabelEditOperationHandler
                .thenAccept(response -> {
                   if (!response.body()) {
                      throw new GLSPServerException("Could not change Property bounds to: " + inputText);
+                  }
+               });
+
+            break;
+
+         case Types.LABEL_ENUMERATION_LITERAL:
+            containerElementId = UmlIDUtil.getElementIdFromEnumLiteralLabel(graphicalElementId);
+            EnumerationLiteral enumLiteral = getOrThrow(modelIndex.getSemantic(containerElementId),
+               EnumerationLiteral.class, "No valid container with id " + graphicalElementId + " found");
+
+            modelAccess.setEnumerationLiteralName(modelState, enumLiteral, inputText)
+               .thenAccept(response -> {
+                  if (!response.body()) {
+                     throw new GLSPServerException("Could not change EnumerationLiteral to: " + inputText);
                   }
                });
 

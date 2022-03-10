@@ -37,5 +37,9 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1OzIsICsEeuZ-81mmATQSA" value="*"/>
     </ownedEnd>
   </packagedElement>
-  <packagedElement xmi:type="uml:Enumeration" xmi:id="_0t8HUIJtEeuvq6_mZuh-Qw" name="Curriculum"/>
+  <packagedElement xmi:type="uml:Enumeration" xmi:id="_0t8HUIJtEeuvq6_mZuh-Qw" name="Curriculum">
+    <ownedLiteral xmi:id="_j6zdIIJ0Eeuvq6_mZuh-Qw" name="BusinessInformatics"/>
+    <ownedLiteral xmi:id="_pE_DAIJ0Eeuvq6_mZuh-Qw" name="DataScience"/>
+    <ownedLiteral xmi:id="_q1APIIJ0Eeuvq6_mZuh-Qw" name="SoftwareEngineering"/>
+  </packagedElement>
 </uml:Model>

@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "01c38c36-404c-482c-a5c5-e32e4b1f1994",
+		"name": "UML GLSP Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Course.uml",
+			"item": [
+				{
+					"name": "GET course.uml",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/models?modeluri=course/model/course.uml&format=uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"models"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								},
+								{
+									"key": "format",
+									"value": "uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET course.unotation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/models?modeluri=course/model/course.unotation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"models"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.unotation"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DATATYPES course.uml",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/uml/types?modeluri=course/model/course.uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"uml",
+								"types"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET course.uml ElementById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/modelelement?modeluri=course/model/course.uml&elementid=//@packagedElement.0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"modelelement"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								},
+								{
+									"key": "elementid",
+									"value": "//@packagedElement.0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET course.uml ElementById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/modelelement?modeluri=course/model/course.uml&elementid=_Y_ah0ICsEeuZ-81mmATQSA",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"modelelement"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								},
+								{
+									"key": "elementid",
+									"value": "_Y_ah0ICsEeuZ-81mmATQSA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET course.unotation ElementById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/modelelement?modeluri=course/model/course.unotation&elementid=//@elements.2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"modelelement"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.unotation"
+								},
+								{
+									"key": "elementid",
+									"value": "//@elements.2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SAVE course.uml",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/save?modeluri=course.uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"save"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course.uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UNDO course.uml",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/undo?modeluri=course/model/course.uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"undo"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REDO course.uml",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/redo?modeluri=course/model/course.uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"redo"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EDIT command set name course.uml",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"eClass\": \"http://www.eclipse.org/emfcloud/modelserver/command#//Command\",\n        \"type\": \"set\",\n        \"owner\": {\n            \"eClass\": \"http://www.eclipse.org/uml2/5.0.0/UML#//Class\",\n            \"$ref\": \"course/model/course.uml#_Y_ah0ICsEeuZ-81mmATQSA\"\n        },\n        \"feature\": \"name\",\n        \"dataValues\": [\n            \"Teacher\"\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/edit?modeluri=course/model/course.uml&format=json",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"edit"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "course/model/course.uml"
+								},
+								{
+									"key": "format",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New.uml",
+			"item": [
+				{
+					"name": "GET create newUmlResource",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"eClass\": \"http://www.eclipse.org/uml2/5.0.0/UML#//Model\",\n        \"name\": \"model\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/v1/uml/create?modeluri=new/model/new.uml&diagramtype=CLASS",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"uml",
+								"create"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "new/model/new.uml"
+								},
+								{
+									"key": "diagramtype",
+									"value": "CLASS"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET new.uml",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/models?modeluri=new/model/new.uml&format=uml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"models"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "new/model/new.uml"
+								},
+								{
+									"key": "format",
+									"value": "uml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET new.unotation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/v1/models?modeluri=new/model/new.unotation",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"v1",
+								"models"
+							],
+							"query": [
+								{
+									"key": "modeluri",
+									"value": "new/model/new.unotation"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET modeluris",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/modeluris",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"modeluris"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL models",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/v1/models",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"models"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -16,6 +16,7 @@ import org.eclipse.emfcloud.modelserver.common.utils.MapBinding;
 import org.eclipse.emfcloud.modelserver.common.utils.MultiBinding;
 import org.eclipse.emfcloud.modelserver.edit.CommandContribution;
 import org.eclipse.emfcloud.modelserver.emf.common.ModelResourceManager;
+import org.eclipse.emfcloud.modelserver.emf.common.ResourceSetFactory;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
 import org.eclipse.emfcloud.modelserver.emf.di.DefaultModelServerModule;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -84,6 +85,11 @@ public class UmlModelServerModule extends DefaultModelServerModule {
    protected void configureRoutings(final MultiBinding<Routing> binding) {
       super.configureRoutings(binding);
       binding.add(UmlModelServerRouting.class);
+   }
+
+   @Override
+   protected Class<? extends ResourceSetFactory> bindResourceSetFactory() {
+      return UmlResourceSetFactory.class;
    }
 
 }

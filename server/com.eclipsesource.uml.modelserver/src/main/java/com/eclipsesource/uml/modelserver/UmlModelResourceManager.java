@@ -12,7 +12,6 @@ package com.eclipsesource.uml.modelserver;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,53 +22,31 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emfcloud.modelserver.emf.common.RecordingModelResourceManager;
 import org.eclipse.emfcloud.modelserver.emf.common.watchers.ModelWatchersManager;
 import org.eclipse.emfcloud.modelserver.emf.configuration.EPackageConfiguration;
 import org.eclipse.emfcloud.modelserver.emf.configuration.ServerConfiguration;
+import org.eclipse.emfcloud.modelserver.emf.util.JsonPatchHelper;
 import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.resource.UMLResource;
-import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
 import com.eclipsesource.uml.modelserver.unotation.SemanticProxy;
 import com.eclipsesource.uml.modelserver.unotation.UnotationFactory;
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 public class UmlModelResourceManager extends RecordingModelResourceManager {
 
    @Inject
    public UmlModelResourceManager(final Set<EPackageConfiguration> configurations, final AdapterFactory adapterFactory,
-      final ServerConfiguration serverConfiguration, final ModelWatchersManager watchersManager) {
-      super(configurations, adapterFactory, serverConfiguration, watchersManager);
-   }
-
-   @Override
-   public String adaptModelUri(final String modelUri) {
-      URI uri = URI.createURI(modelUri, true);
-      if (uri.isRelative()) {
-         if (serverConfiguration.getWorkspaceRootURI().isFile()) {
-            return uri.resolve(serverConfiguration.getWorkspaceRootURI()).toString();
-         }
-         return URI.createFileURI(modelUri).toString();
-      }
-      // Create file URI from path if modelUri is already absolute path (file:/ or full path file:///)
-      // to ensure consistent usage of org.eclipse.emf.common.util.URI
-      if (uri.hasDevice() && !Strings.isNullOrEmpty(uri.device())) {
-         return URI.createFileURI(uri.device() + uri.path()).toString();
-      }
-      // In case of Windows: we cannot skip the scheme (e.g. C:)
-      // therefore we check if scheme is no file: scheme and then use the whole uri as fileURI
-      if (URI.validScheme(uri.scheme()) && !uri.isFile()) {
-         return URI.createFileURI(uri.toString()).toString();
-      }
-      return URI.createFileURI(uri.path()).toString();
+      final ServerConfiguration serverConfiguration, final ModelWatchersManager watchersManager,
+      final Provider<JsonPatchHelper> jsonPatchHelper) {
+      super(configurations, adapterFactory, serverConfiguration, watchersManager, jsonPatchHelper);
    }
 
    @Override
@@ -82,31 +59,12 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
          if (isSourceDirectory(file)) {
             loadSourceResources(file.getAbsolutePath());
          } else if (file.isFile()) {
-            URI absolutePath = createURI(file.getAbsolutePath());
-            if (absolutePath.fileExtension().equals(UMLResource.FILE_EXTENSION)) {
-               ResourceSet resourceSet = new ResourceSetImpl();
-               resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION,
-                  UMLResource.Factory.INSTANCE);
-               UMLResourcesUtil.init(resourceSet);
-               resourceSets.put(absolutePath, resourceSet);
-               loadResourceLibraries(resourceSet);
+            URI modelURI = createURI(file.getAbsolutePath());
+            if (modelURI.fileExtension().equals(UMLResource.FILE_EXTENSION)) {
+               resourceSets.put(modelURI, resourceSetFactory.createResourceSet(modelURI));
             }
-            loadResource(absolutePath.toString());
+            loadResource(modelURI.toString());
          }
-      }
-   }
-
-   protected void loadResourceLibraries(final ResourceSet resourceSet) {
-      try {
-         resourceSet.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true)
-            .load(Collections.EMPTY_MAP);
-         resourceSet.getResource(URI.createURI(UMLResource.ECORE_PRIMITIVE_TYPES_LIBRARY_URI), true)
-            .load(Collections.EMPTY_MAP);
-         resourceSet.getResource(URI.createURI(UMLResource.ECORE_PROFILE_URI), true)
-            .load(Collections.EMPTY_MAP);
-      } catch (IOException e) {
-         LOG.debug("Could not load resource libraries for resourceSet with URI: " + resourceSet.toString());
-         e.printStackTrace();
       }
    }
 
@@ -136,7 +94,7 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
    }
 
    public Set<String> getUmlTypes(final String modeluri) {
-      ResourceSet resourceSet = getResourceSet(adaptModelUri(modeluri));
+      ResourceSet resourceSet = getResourceSet(modeluri);
       Set<String> listOfClassifiers = new HashSet<>();
       TreeIterator<Notifier> resourceSetContent = resourceSet.getAllContents();
       while (resourceSetContent.hasNext()) {
@@ -149,13 +107,9 @@ public class UmlModelResourceManager extends RecordingModelResourceManager {
    }
 
    public boolean addUmlResources(final String modeluri, final String diagramType) {
-      URI umlModelUri = createURI(adaptModelUri(modeluri));
-      ResourceSet resourceSet = new ResourceSetImpl();
-      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION,
-         UMLResource.Factory.INSTANCE);
-      UMLResourcesUtil.init(resourceSet);
+      URI umlModelUri = createURI(modeluri);
+      ResourceSet resourceSet = resourceSetFactory.createResourceSet(umlModelUri);
       resourceSets.put(umlModelUri, resourceSet);
-      loadResourceLibraries(resourceSet);
 
       final Model umlModel = createNewModel(umlModelUri);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="Uml GLSP Editor Targetplatform 2022-03" sequenceNumber="1647015067">
+<target name="Uml GLSP Editor Targetplatform 2022-03" sequenceNumber="1647851159">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.glsp.feature.feature.group" version="0.10.0.202203070850"/>
@@ -23,7 +23,7 @@
       <unit id="org.eclipse.uml2.uml" version="5.5.0.v20210228-1829"/>
       <unit id="org.eclipse.uml2.uml.resources" version="5.5.0.v20210228-1829"/>
       <unit id="org.eclipse.emf.transaction.feature.group" version="1.12.0.201805140824"/>
-      <unit id="org.eclipse.emf.sdk.feature.group" version="2.29.0.v20220201-1551"/>
+      <unit id="org.eclipse.emf.sdk.feature.group" version="2.29.0.v20220226-1304"/>
       <repository location="http://download.eclipse.org/releases/2022-03"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">

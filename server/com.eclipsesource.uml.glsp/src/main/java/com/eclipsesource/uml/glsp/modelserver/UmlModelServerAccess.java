@@ -40,6 +40,7 @@ import com.eclipsesource.uml.modelserver.UmlModelServerClient;
 import com.eclipsesource.uml.modelserver.UmlNotationUtil;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddAssociationCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddClassCommandContribution;
+import com.eclipsesource.uml.modelserver.commands.contributions.AddPackageCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.AddPropertyCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeBoundsCommandContribution;
 import com.eclipsesource.uml.modelserver.commands.contributions.ChangeRoutingPointsCommandContribution;
@@ -205,6 +206,17 @@ public class UmlModelServerAccess extends EMSModelServerAccess {
       CCommand setClassNameCommand = SetAssociationEndMultiplicityCommandContribution.create(
          getSemanticUriFragment(associationEnd), newBounds);
       return this.edit(setClassNameCommand);
+   }
+
+   /*
+    * UML Package
+    */
+   public CompletableFuture<Response<Boolean>> addPackage(final UmlModelState modelState,
+      final Optional<GPoint> newPosition, final NamedElement parentContainer) {
+
+      CCompoundCommand addPackageCompoundCommand = AddPackageCommandContribution
+         .create(getSemanticUriFragment(parentContainer), newPosition.orElse(GraphUtil.point(0, 0)));
+      return this.edit(addPackageCompoundCommand);
    }
 
    /*

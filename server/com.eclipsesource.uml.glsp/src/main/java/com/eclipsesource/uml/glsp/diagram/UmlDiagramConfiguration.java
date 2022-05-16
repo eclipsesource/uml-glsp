@@ -11,6 +11,7 @@
 package com.eclipsesource.uml.glsp.diagram;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,9 +45,12 @@ public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
    @Override
    public List<ShapeTypeHint> getShapeTypeHints() {
       List<ShapeTypeHint> hints = new ArrayList<>();
-      hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS)));
+      hints.add(new ShapeTypeHint(DefaultTypes.GRAPH, false, false, false, false, List.of(Types.CLASS, Types.PACKAGE)));
       hints.add(new ShapeTypeHint(Types.CLASS, true, true, false, false, List.of(Types.PROPERTY)));
       hints.add(new ShapeTypeHint(Types.PROPERTY, false, true, false, true));
+      ShapeTypeHint packageHint = new ShapeTypeHint(Types.PACKAGE, true, true, true, false);
+      packageHint.setContainableElementTypeIds(Arrays.asList(Types.PACKAGE));
+      hints.add(packageHint);
       return hints;
    }
 
@@ -72,6 +76,10 @@ public class UmlDiagramConfiguration extends BaseDiagramConfiguration {
       mappings.put(Types.LABEL_PROPERTY_MULTIPLICITY, GraphPackage.Literals.GLABEL);
       // UML Associations
       mappings.put(Types.ASSOCIATION, GraphPackage.Literals.GEDGE);
+      // UML Package
+      mappings.put(Types.PACKAGE, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.STRUCTURE, GraphPackage.Literals.GCOMPARTMENT);
+      mappings.put(Types.LABEL_PACKAGE_NAME, GraphPackage.Literals.GLABEL);
       return mappings;
    }
 

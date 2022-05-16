@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021-2022 EclipseSource and others.
+ * Copyright (c) 2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -19,17 +19,18 @@ import org.eclipse.glsp.graph.GPoint;
 import org.eclipse.uml2.uml.PackageableElement;
 
 import com.eclipsesource.uml.modelserver.commands.notation.AddPackageableShapeCommand;
-import com.eclipsesource.uml.modelserver.commands.semantic.AddClassCommand;
+import com.eclipsesource.uml.modelserver.commands.semantic.AddPackageCommand;
 
-public class AddClassCompoundCommand extends CompoundCommand {
+public class AddPackageCompoundCommand extends CompoundCommand {
 
-   public AddClassCompoundCommand(final EditingDomain domain, final URI modelUri, final GPoint classPosition) {
+   public AddPackageCompoundCommand(final EditingDomain domain, final URI modelUri, final String parentSemanticUri,
+      final GPoint packagePosition) {
 
       // Chain semantic and notation command
-      AddClassCommand command = new AddClassCommand(domain, modelUri);
+      AddPackageCommand command = new AddPackageCommand(domain, modelUri, parentSemanticUri);
       this.append(command);
-      Supplier<PackageableElement> semanticResultSupplier = () -> command.getNewClass();
-      this.append(new AddPackageableShapeCommand(domain, modelUri, classPosition, semanticResultSupplier));
+      Supplier<PackageableElement> semanticResultSupplier = () -> command.getNewPackage();
+      this.append(new AddPackageableShapeCommand(domain, modelUri, packagePosition, semanticResultSupplier));
    }
 
 }

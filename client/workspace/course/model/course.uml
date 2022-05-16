@@ -37,4 +37,7 @@
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1OzIsICsEeuZ-81mmATQSA" value="*"/>
     </ownedEnd>
   </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_rd7lUNToEeyCP5uK1JMX0w" name="Package">
+    <packagedElement xmi:type="uml:Package" xmi:id="_in7lUNToEeyCP5uK1JMX0w" name="ChildPackage"/>
+  </packagedElement>
 </uml:Model>

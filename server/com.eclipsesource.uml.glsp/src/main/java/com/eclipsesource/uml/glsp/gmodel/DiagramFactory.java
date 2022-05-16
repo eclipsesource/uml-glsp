@@ -22,7 +22,7 @@ import com.eclipsesource.uml.modelserver.unotation.Diagram;
 
 public abstract class DiagramFactory extends AbstractGModelFactory<EObject, GModelElement> {
 
-   protected final ClassifierNodeFactory classifierNodeFactory;
+   protected final PackageableNodeFactory classifierNodeFactory;
    protected final CompartmentLabelFactory labelFactory;
    protected final RelationshipEdgeFactory relationshipEdgeFactory;
 
@@ -30,7 +30,7 @@ public abstract class DiagramFactory extends AbstractGModelFactory<EObject, GMod
       super(modelState);
       labelFactory = new CompartmentLabelFactory(modelState);
       relationshipEdgeFactory = new RelationshipEdgeFactory(modelState);
-      classifierNodeFactory = new ClassifierNodeFactory(modelState, labelFactory);
+      classifierNodeFactory = new PackageableNodeFactory(modelState, labelFactory);
       getOrCreateRoot();
    }
 

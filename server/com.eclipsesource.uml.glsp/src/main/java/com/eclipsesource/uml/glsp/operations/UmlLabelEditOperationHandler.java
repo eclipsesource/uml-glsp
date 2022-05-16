@@ -126,6 +126,9 @@ public class UmlLabelEditOperationHandler
                   }
                });
             break;
+
+         case Types.LABEL_PACKAGE_NAME:
+            throw new GLSPServerException("Not yet implemented!");
       }
 
    }

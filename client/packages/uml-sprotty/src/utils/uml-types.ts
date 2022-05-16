@@ -25,5 +25,8 @@ export namespace UmlTypes {
     export const LABEL_PROPERTY_NAME = `${DefaultTypes.LABEL}:property:name`;
     export const LABEL_PROPERTY_TYPE = `${DefaultTypes.LABEL}:property:type`;
     export const LABEL_PROPERTY_MULTIPLICITY = `${DefaultTypes.LABEL}:property:multiplicity`;
+    export const PACKAGE = `${DefaultTypes.NODE}:package`;
+    export const STRUCTURE = "struct";
+    export const LABEL_PACKAGE_NAME = `${DefaultTypes.LABEL}:package:name`;
 
 }

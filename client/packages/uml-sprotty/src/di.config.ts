@@ -21,11 +21,14 @@ import {
     LogLevel,
     overrideViewerOptions,
     PolylineEdgeView,
+    RoundedCornerNodeView,
     saveModule,
+    SCompartment,
     SCompartmentView,
     SEdge,
     SLabel,
     SLabelView,
+    StructureCompartmentView,
     TYPES
 } from "@eclipse-glsp/client/lib";
 import toolPaletteModule from "@eclipse-glsp/client/lib/features/tool-palette/di.config";
@@ -35,7 +38,7 @@ import { EditLabelUI } from "sprotty/lib";
 import { EditLabelUIAutocomplete } from "./features/edit-label";
 import umlToolPaletteModule from "./features/tool-palette/di.config";
 import { IconLabelCompartmentSelectionFeedback } from "./feedback";
-import { IconClass, IconLabelCompartment, IconProperty, LabeledNode, SEditableLabel } from "./model";
+import { PackageNode, IconClass, IconLabelCompartment, IconProperty, LabeledNode, SEditableLabel } from "./model";
 import { UmlTypes } from "./utils";
 import { ClassNodeView, IconView } from "./views";
 
@@ -60,6 +63,9 @@ export default function createContainer(widgetId: string): Container {
         configureModelElement(context, UmlTypes.LABEL_PROPERTY_TYPE, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.LABEL_PROPERTY_MULTIPLICITY, SEditableLabel, SLabelView);
         configureModelElement(context, UmlTypes.ASSOCIATION, SEdge, PolylineEdgeView);
+        configureModelElement(context, UmlTypes.PACKAGE, PackageNode, RoundedCornerNodeView);
+        configureModelElement(context, UmlTypes.STRUCTURE, SCompartment, StructureCompartmentView);
+        configureModelElement(context, UmlTypes.LABEL_PACKAGE_NAME, SEditableLabel, SLabelView);
         configureViewerOptions(context, {
             needsClientLayout: true,
             baseDiv: widgetId

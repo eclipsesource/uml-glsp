@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,6 +27,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.StructuralFeature;
@@ -92,15 +93,19 @@ public final class UmlSemanticCommandUtil {
       return nameProvider.apply(attributeCounter);
    }
 
-   public static String getNewClassName(final Model umlModel) {
-      return UmlSemanticCommandUtil.getNewPackageableElementName(Class.class, umlModel);
+   public static String getNewClassName(final Model container) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(Class.class, container);
+   }
+
+   public static String getNewPackageName(final Package container) {
+      return UmlSemanticCommandUtil.getNewPackageableElementName(Package.class, container);
    }
 
    private static String getNewPackageableElementName(final java.lang.Class<? extends PackageableElement> umlClassifier,
-      final Model umlModel) {
+      final Package container) {
       Function<Integer, String> nameProvider = i -> "New" + umlClassifier.getSimpleName() + i;
 
-      int classifierCounter = umlModel.getPackagedElements().stream().filter(umlClassifier::isInstance)
+      int classifierCounter = container.getPackagedElements().stream().filter(umlClassifier::isInstance)
          .collect(Collectors.toList()).size();
 
       return nameProvider.apply(classifierCounter);

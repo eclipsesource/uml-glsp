@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -37,8 +37,8 @@ import com.eclipsesource.uml.glsp.model.UmlModelFactory;
 import com.eclipsesource.uml.glsp.model.UmlModelSourceLoader;
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.glsp.operations.CreateClassifierChildNodeOperationHandler;
-import com.eclipsesource.uml.glsp.operations.CreateClassifierNodeOperationHandler;
 import com.eclipsesource.uml.glsp.operations.CreateEdgeOperationHandler;
+import com.eclipsesource.uml.glsp.operations.CreatePackageableNodeOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlChangeBoundsOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlChangeRoutingPointsOperationHandler;
 import com.eclipsesource.uml.glsp.operations.UmlCompoundOperationHandler;
@@ -98,7 +98,7 @@ public class UmlGLSPModule extends EMSGLSPModule {
       bindings.rebind(ChangeBoundsOperationHandler.class, UmlChangeBoundsOperationHandler.class);
       bindings.rebind(ChangeRoutingPointsHandler.class, UmlChangeRoutingPointsOperationHandler.class);
       bindings.rebind(DeleteOperationHandler.class, UmlDeleteOperationHandler.class);
-      bindings.add(CreateClassifierNodeOperationHandler.class);
+      bindings.add(CreatePackageableNodeOperationHandler.class);
       bindings.add(CreateEdgeOperationHandler.class);
       bindings.add(CreateClassifierChildNodeOperationHandler.class);
       bindings.add(LayoutOperationHandler.class);

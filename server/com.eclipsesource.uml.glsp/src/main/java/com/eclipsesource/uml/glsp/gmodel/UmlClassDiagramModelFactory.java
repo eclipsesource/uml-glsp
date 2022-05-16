@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2021 EclipseSource and others.
+ * Copyright (c) 2021-2022 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,8 +17,8 @@ import org.eclipse.glsp.graph.GGraph;
 import org.eclipse.glsp.graph.GModelElement;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
 
 import com.eclipsesource.uml.glsp.model.UmlModelState;
 import com.eclipsesource.uml.modelserver.unotation.Diagram;
@@ -54,13 +54,13 @@ public class UmlClassDiagramModelFactory extends DiagramFactory {
             .collect(Collectors.toList());
          graph.getChildren().addAll(associationEdges);
 
-         // Add Enumerations
-         List<GModelElement> enumerationNodes = umlModel.getPackagedElements().stream()
-            .filter(Enumeration.class::isInstance)
-            .map(Enumeration.class::cast)
-            .map(umlEnumeration -> classifierNodeFactory.create(umlEnumeration))
+         // Add Packages
+         List<GModelElement> packageNodes = umlModel.getPackagedElements().stream()
+            .filter(Package.class::isInstance)
+            .map(Package.class::cast)
+            .map(umlPackage -> classifierNodeFactory.create(umlPackage))
             .collect(Collectors.toList());
-         graph.getChildren().addAll(enumerationNodes);
+         graph.getChildren().addAll(packageNodes);
       }
       return graph;
 

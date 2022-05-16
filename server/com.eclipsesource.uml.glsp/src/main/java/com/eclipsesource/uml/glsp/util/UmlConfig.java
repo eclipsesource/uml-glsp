@@ -29,6 +29,9 @@ public final class UmlConfig {
       public static final String LABEL_PROPERTY_TYPE = "label:property:type";
       public static final String LABEL_PROPERTY_MULTIPLICITY = "label:property:multiplicity";
       public static final String ASSOCIATION = "edge:association";
+      public static final String PACKAGE = "node:package";
+      public static final String STRUCTURE = "struct";
+      public static final String LABEL_PACKAGE_NAME = "label:package:name";
 
       private Types() {}
    }
@@ -37,6 +40,7 @@ public final class UmlConfig {
 
       public static final String NODE = "uml-node";
       public static final String EDGE = "uml-edge";
+      public static final String PACKAGE = "uml-package";
 
       private CSS() {}
    }
